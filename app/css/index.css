@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: beige;
+}
+
+.search-bar {
+  margin: 1rem;
+}
+
+.weather {
+  margin: 1rem;
+}
+
+.locations-preview {
+  max-height: 30rem;
+  width: 30rem;
+  overflow-y: scroll;
+  border: 0.1rem solid lightgray;
+}
+.locations-preview .list {
+  list-style: none;
+}
+.locations-preview .list .item {
+  cursor: pointer;
+  margin: 1rem;
+  padding-bottom: 1rem;
+}
+.locations-preview .list .item:not(:last-child) {
+  border-bottom: 0.1rem solid lightgray;
+}
+
+/*# sourceMappingURL=index.css.map */
