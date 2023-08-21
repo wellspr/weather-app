@@ -1,0 +1,28 @@
+.hourly-preview {
+   
+    .list {
+        display: flex;
+        overflow-x: scroll;
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem;
+            min-width: 100px;
+
+            .temperature {
+                display: flex;
+                align-items: start;
+
+                &__value {
+                    font-size: 2rem;
+                }
+
+                &__unit {
+                    font-size: 1.2rem;
+                    margin-top: .3rem;
+                }
+            }
+        }
+    }
+}

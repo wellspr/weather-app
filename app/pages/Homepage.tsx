@@ -17,6 +17,7 @@ import { useReverseGeocoding } from "~/hooks/useReverseGeocoding";
 import { useWeatherData } from "~/hooks/useWeatherData";
 import { useNavigatorGeolocation } from "~/hooks/useNavigatorGeolocation";
 import SavedLocations from "~/components/SavedLocations";
+import HourlyPreview from "~/components/HourlyPreview";
 
 const Homepage: FC = () => {
 
@@ -114,6 +115,10 @@ const Homepage: FC = () => {
 
             <div className="weather">
                 <WeatherPreview forecast={forecast} selectedLocation={selectedLocation} />
+            </div>
+
+            <div>
+                <HourlyPreview forecast={forecast} />
             </div>
 
             <div className="locations-preview">

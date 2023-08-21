@@ -38,4 +38,26 @@ body {
   border-bottom: 0.1rem solid lightgray;
 }
 
+.hourly-preview .list {
+  display: flex;
+  overflow-x: scroll;
+}
+.hourly-preview .list .item {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  min-width: 100px;
+}
+.hourly-preview .list .item .temperature {
+  display: flex;
+  align-items: start;
+}
+.hourly-preview .list .item .temperature__value {
+  font-size: 2rem;
+}
+.hourly-preview .list .item .temperature__unit {
+  font-size: 1.2rem;
+  margin-top: 0.3rem;
+}
+
 /*# sourceMappingURL=index.css.map */
