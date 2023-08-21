@@ -16,6 +16,7 @@ import { useGeocoding } from "~/hooks/useGeocoding";
 import { useReverseGeocoding } from "~/hooks/useReverseGeocoding";
 import { useWeatherData } from "~/hooks/useWeatherData";
 import { useNavigatorGeolocation } from "~/hooks/useNavigatorGeolocation";
+import SavedLocations from "~/components/SavedLocations";
 
 const Homepage: FC = () => {
 
@@ -81,7 +82,7 @@ const Homepage: FC = () => {
     }, [reverseGeocoding]);
 
     return (
-        <div>
+        <div className="homepage">
             <div className="banner banner__current-location">
                 {
                     (loadingGeolocation || !selectedLocation) ?
@@ -117,6 +118,10 @@ const Homepage: FC = () => {
 
             <div className="locations-preview">
                 <GeocodingResults geocoding={geocoding} selectLocation={selectLocation} />
+            </div>
+
+            <div className="saved-locations-preview">
+                <SavedLocations selectLocation={selectLocation} />
             </div>
         </div>
     );

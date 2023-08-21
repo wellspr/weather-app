@@ -20,21 +20,21 @@ body {
   margin: 1rem;
 }
 
-.locations-preview {
+.geocoding-results, .saved-locations {
   max-height: 30rem;
   width: 30rem;
   overflow-y: scroll;
   border: 0.1rem solid lightgray;
 }
-.locations-preview .list {
+.geocoding-results .list, .saved-locations .list {
   list-style: none;
 }
-.locations-preview .list .item {
+.geocoding-results .list .item, .saved-locations .list .item {
   cursor: pointer;
   margin: 1rem;
   padding-bottom: 1rem;
 }
-.locations-preview .list .item:not(:last-child) {
+.geocoding-results .list .item:not(:last-child), .saved-locations .list .item:not(:last-child) {
   border-bottom: 0.1rem solid lightgray;
 }
 
