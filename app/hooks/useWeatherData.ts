@@ -14,7 +14,7 @@ export const useWeatherData = () => {
 
     const fetchWeatherData = async (location:{latitude: number, longitude: number, name: string}) => {
         const key = `weather_data-${location.name.replace(/ /g, "_").toLocaleLowerCase()}`;
-        const cache: Cache = await localforage.getItem(key, err => { console.log(err) });
+        const cache: Cache = await localforage.getItem(key);
 
         const fetchFreshData = async () => {
             const { latitude, longitude } = location;
@@ -26,30 +26,32 @@ export const useWeatherData = () => {
             const value: Cache = {
                 cacheTime: new Date().getTime(),
                 locationName: location.name,
-                data
+                data,
             };
 
-            localforage.setItem(key, value, (err) => { console.log(err) });
+            localforage.setItem(key, value);
+        };
+
+        const isDataStale = (currentWeatherTime: string) => {
+            const now = new Date();
+            return (
+                now.getDate() === new Date(currentWeatherTime).getDate() &&
+                now.getHours() > new Date(currentWeatherTime).getHours()
+            ) ||
+            (
+                now.getDate() > new Date(currentWeatherTime).getDate()
+            );
         };
 
         if (cache && cache.data) {
-            console.log("Using cache: ", cache);
-
-            //check if data is stale 
             const currentWeatherTime = cache.data.current_weather.time;
-
-            if (
-                (
-                    new Date().getDate() === new Date(currentWeatherTime).getDate() &&
-                    new Date().getHours() > new Date(currentWeatherTime).getHours()
-                ) ||
-                (
-                    new Date().getDate() > new Date(currentWeatherTime).getDate()
-                )
-            ) {
+            
+            //check if data is stale 
+            if (isDataStale(currentWeatherTime)) {
                 console.log("Data is stale...");
                 fetchFreshData();
             } else {
+                console.log("Using cache: ", cache);
                 setForecast(cache.data);
             }
         } else {

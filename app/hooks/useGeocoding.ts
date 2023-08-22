@@ -11,7 +11,7 @@ export const useGeocoding = () => {
     const fetchGeocodingData = async ({searchTerm}:{searchTerm: string}) => {
         const term = searchTerm.trim();
         const key = `search_term-${term.replace(/ /g, "_").toLowerCase()}`;
-        const cache: Cache = await localforage.getItem(key, err => { console.log(err) });
+        const cache: Cache = await localforage.getItem(key);
 
         const fetchFreshData = async () => {
             const url = encodeURI(`/api/geocoding/${term}`);
@@ -25,7 +25,7 @@ export const useGeocoding = () => {
         } else {
             fetchFreshData().then(results => {
                 setGeocoding(results);
-                localforage.setItem(key, results, err => { console.log(err) });
+                localforage.setItem(key, results);
             });
         }
     };

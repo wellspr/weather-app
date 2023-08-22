@@ -11,7 +11,7 @@ const SavedLocations: FC<SavedLocationsProps> = ({ selectLocation }) => {
     const [locations, setLocations] = useState<Location[] | null>(null);
 
     const getLocations = async () => {
-        const cached: Location[] | null = await localforage.getItem("locations", err => console.log(err));
+        const cached: Location[] | null = await localforage.getItem("locations");
         setLocations(cached);
     };
 

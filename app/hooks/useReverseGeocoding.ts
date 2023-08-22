@@ -11,7 +11,7 @@ export const useReverseGeocoding = () => {
 
     const fetchReverseGeocodingData = async ({ geolocation }: { geolocation: GeolocationPosition }) => {
         const key = "current_geocoding";
-        const cache: Cache = await localforage.getItem(key, err => { console.log(err) });
+        const cache: Cache = await localforage.getItem(key);
         const { latitude, longitude } = geolocation?.coords;
 
         const fetchFreshData = async () => {
@@ -27,7 +27,7 @@ export const useReverseGeocoding = () => {
             } else {
                 fetchFreshData().then(value => {
                     setReverseGeocoding(value);
-                    localforage.setItem(key, value, err => { console.log(err) });
+                    localforage.setItem(key, value);
                 })
             }
         }

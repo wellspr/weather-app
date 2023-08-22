@@ -24,13 +24,15 @@ const Homepage: FC = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>(null);
 
+    const { loadingGeolocation, geolocation } = useNavigatorGeolocation();
     const { geocoding, fetchGeocodingData } = useGeocoding();
     const { reverseGeocoding, fetchReverseGeocodingData } = useReverseGeocoding();
     const { forecast, fetchWeatherData } = useWeatherData();
-    const { loadingGeolocation, geolocation } = useNavigatorGeolocation();
 
     /* User selects a location from options */
     const selectLocation = async (location: Location) => {
+        console.log("Selecting location...");
+
         if (location) {
             setSelectedLocation({
                 name: location.name,
@@ -39,11 +41,13 @@ const Homepage: FC = () => {
                 longitude: location.longitude
             });
 
+            localforage.setItem("lastSelectedLocation", location);
+
             const { latitude, longitude, name } = location;
-            fetchWeatherData({latitude, longitude, name});
+            fetchWeatherData({ latitude, longitude, name });
         }
 
-        const item: Location[] | null = await localforage.getItem("locations", err => { console.log(err) });
+        const item: Location[] | null = await localforage.getItem("locations");
 
         if (item) {
             const data: Location[] = item;
@@ -51,13 +55,38 @@ const Homepage: FC = () => {
 
             if (!ids.includes(location?.id)) {
                 data.push(location);
-                localforage.setItem("locations", data, err => { console.log(err) });
+                localforage.setItem("locations", data);
             }
 
         } else {
-            localforage.setItem("locations", new Array(location), err => { console.log(err) });
+            localforage.setItem("locations", new Array(location));
         }
     };
+
+    useEffect(() => {
+        const checkAndFetch = async () => {
+            console.log("Focus on window");
+            const lastSelectedLocation: Location = await localforage.getItem("lastSelectedLocation");
+
+            if (lastSelectedLocation) {
+                console.log("Selected Location: ", lastSelectedLocation);
+
+                fetchWeatherData({
+                    latitude: lastSelectedLocation?.latitude,
+                    longitude: lastSelectedLocation?.longitude,
+                    name: lastSelectedLocation?.name,
+                });
+            } else {
+                console.log("no location selected.");
+            }
+        };
+
+        window.addEventListener("focus", checkAndFetch);
+
+        return () => {
+            window.removeEventListener("focus", checkAndFetch);
+        }
+    }, []);
 
     useEffect(() => {
         if (geolocation) {
@@ -66,20 +95,45 @@ const Homepage: FC = () => {
     }, [geolocation]);
 
     useEffect(() => {
-        if (reverseGeocoding) {
-            setSelectedLocation({
-                name: reverseGeocoding.name,
-                country: reverseGeocoding.country,
-                latitude: reverseGeocoding.lat,
-                longitude: reverseGeocoding.lon
+
+        const getLastSelectedLocation = async () => {
+            const lastSelectedlocation: Location = await localforage.getItem("lastSelectedLocation");
+            return lastSelectedlocation;
+        };
+
+        getLastSelectedLocation()
+            .then(location => {
+                if (location) { 
+                    //check for cached location
+                    setSelectedLocation({
+                        name: location.name,
+                        country: location.country,
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                    });
+
+                    const latitude = location.latitude;
+                    const longitude = location.longitude;
+                    const { name } = location;
+        
+                    fetchWeatherData({ latitude, longitude, name });
+                } 
+                else if (reverseGeocoding) { 
+                    //get browser location
+                    setSelectedLocation({
+                        name: reverseGeocoding.name,
+                        country: reverseGeocoding.country,
+                        latitude: reverseGeocoding.lat,
+                        longitude: reverseGeocoding.lon
+                    });
+        
+                    const latitude = reverseGeocoding.lat;
+                    const longitude = reverseGeocoding.lon;
+                    const { name } = reverseGeocoding;
+        
+                    fetchWeatherData({ latitude, longitude, name });
+                }
             });
-
-            const latitude = reverseGeocoding.lat;
-            const longitude = reverseGeocoding.lon;
-            const { name } = reverseGeocoding;
-
-            fetchWeatherData({ latitude, longitude, name });
-        }
     }, [reverseGeocoding]);
 
     return (
@@ -106,7 +160,7 @@ const Homepage: FC = () => {
                 />
                 <button
                     className="button button__search"
-                    onClick={() => fetchGeocodingData({searchTerm})}
+                    onClick={() => fetchGeocodingData({ searchTerm })}
                     type="submit"
                 >
                     Go

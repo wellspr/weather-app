@@ -25,7 +25,6 @@ export const useNavigatorGeolocation = () => {
             });
         } else {
             const success = (position: GeolocationPosition) => {
-                console.log("New position: ", position);
                 setGeolocation(position);
                 setMessage({ ...message, fetchingPosition: false });
             };
