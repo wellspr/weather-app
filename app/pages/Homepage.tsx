@@ -9,21 +9,22 @@ import localforage from "localforage";
 
 // Components
 import GeocodingResults from "~/components/GeocodingResults";
-import WeatherPreview from "~/components/WeatherPreview";
+import CurrentWeather from "~/components/CurrentWeather";
+import SavedLocations from "~/components/SavedLocations";
+import HourlyPreview from "~/components/HourlyPreview";
 
 // Hooks
 import { useGeocoding } from "~/hooks/useGeocoding";
 import { useReverseGeocoding } from "~/hooks/useReverseGeocoding";
 import { useWeatherData } from "~/hooks/useWeatherData";
 import { useNavigatorGeolocation } from "~/hooks/useNavigatorGeolocation";
-import SavedLocations from "~/components/SavedLocations";
-import HourlyPreview from "~/components/HourlyPreview";
+import SearchBar from "~/components/SearchBar";
+import Banner from "~/components/Banner";
+import DailyPreview from "~/components/DailyPreview";
 
 const Homepage: FC = () => {
 
-    const [searchTerm, setSearchTerm] = useState("");
     const [selectedLocation, setSelectedLocation] = useState<SelectedLocation>(null);
-
     const { loadingGeolocation, geolocation } = useNavigatorGeolocation();
     const { geocoding, fetchGeocodingData } = useGeocoding();
     const { reverseGeocoding, fetchReverseGeocodingData } = useReverseGeocoding();
@@ -138,50 +139,19 @@ const Homepage: FC = () => {
 
     return (
         <div className="homepage">
-            <div className="banner banner__current-location">
-                {
-                    (loadingGeolocation || !selectedLocation) ?
-                        <p>Fetching position...</p> :
-                        <p>
-                            {selectedLocation?.name},
-                            {selectedLocation?.country} ({selectedLocation?.latitude},
-                            {selectedLocation?.longitude})
-                        </p>
-                }
-            </div>
-            <div className="search-bar">
-                <input
-                    type="text"
-                    name="location"
-                    id="location_id"
-                    className="input input__search"
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                />
-                <button
-                    className="button button__search"
-                    onClick={() => fetchGeocodingData({ searchTerm })}
-                    type="submit"
-                >
-                    Go
-                </button>
-            </div>
+            <Banner loadingGeolocation={loadingGeolocation} selectedLocation={selectedLocation} />
 
-            <div className="weather">
-                <WeatherPreview forecast={forecast} selectedLocation={selectedLocation} />
-            </div>
+            <SearchBar fetchGeocodingData={fetchGeocodingData} />
 
-            <div>
-                <HourlyPreview forecast={forecast} />
-            </div>
+            <CurrentWeather forecast={forecast} selectedLocation={selectedLocation} />
 
-            <div className="locations-preview">
-                <GeocodingResults geocoding={geocoding} selectLocation={selectLocation} />
-            </div>
+            <HourlyPreview forecast={forecast} />
 
-            <div className="saved-locations-preview">
-                <SavedLocations selectLocation={selectLocation} />
-            </div>
+            <DailyPreview forecast={forecast} />
+
+            <GeocodingResults geocoding={geocoding} selectLocation={selectLocation} />
+
+            <SavedLocations selectLocation={selectLocation} />
         </div>
     );
 };

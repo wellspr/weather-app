@@ -8,16 +8,19 @@
 @import "base/typography";
 
 // Components
+@import "components/banner";
+@import "components/button";
 @import "components/search-bar";
-@import "components/weather";
+@import "components/current-weather";
 @import "components/locations-preview";
 @import "components/hourly-preview";
+@import "components/daily-preview";
 
 // Layout
 
 
 // Pages
-
+@import "pages/homepage";
 
 //Themes
 

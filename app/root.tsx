@@ -23,7 +23,11 @@ const App = () => {
                 <Links />
             </head>
             <body>
-                <Outlet />
+                <header className="header"></header>
+                <main className="main-component">
+                    <Outlet />
+                </main>
+                <footer className="footer"></footer>
                 <ScrollRestoration />
                 <Scripts />
                 <LiveReload />

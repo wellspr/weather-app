@@ -11,6 +11,8 @@ type Cache = {
 export const useWeatherData = () => {
 
     const [forecast, setForecast] = useState<Forecast>(null);
+    const [pastDays, setPastDays] = useState(0);
+    const [forecastDays, setForecastDays] = useState(16);
 
     const fetchWeatherData = async (location:{latitude: number, longitude: number, name: string}) => {
         const key = `weather_data-${location.name.replace(/ /g, "_").toLocaleLowerCase()}`;
@@ -18,7 +20,7 @@ export const useWeatherData = () => {
 
         const fetchFreshData = async () => {
             const { latitude, longitude } = location;
-            const url = encodeURI(`/api/forecast/?latitude=${latitude}&longitude=${longitude}`);
+            const url = encodeURI(`/api/forecast/?latitude=${latitude}&longitude=${longitude}&past_days=${pastDays}&forecast_days=${forecastDays}`);
             const response = await fetch(url);
             const data = await response.json();
             setForecast(data);

@@ -1,29 +1,100 @@
-.hourly-preview {
+.daily-preview {
+    .item > * {
+        margin: .4rem 0;
+    }
+
+    .item {
+
+        .temp {
+
+            display: flex;
+
+            &__max, &__min {
+                font-size: 2.4rem;
+            }
+
+            &__apparent-max, &__apparent-min {
+                display: flex;
+                align-items: center;
+                font-size: 1.4rem;
+            }
+
+            
+        }
+    }
+}
+
+.hourly-preview, .daily-preview {
     margin: 1rem;
    
     .list {
         display: flex;
         overflow-x: scroll;
+        padding-bottom: .75rem;
 
         .item {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
             margin: 1rem;
-            min-width: 100px;
+            padding: 1rem;
+            min-width: 12rem;
+            gap: .3rem;
+
+            border: 1px solid darkslateblue;
+            border-radius: .5rem;
+
+            .date {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+
+                .hour {
+                    
+                    &__value {
+                        font-size: 1.4rem;
+                        font-weight: bold;
+                    }
+                }
+            }
 
             .temperature {
                 display: flex;
                 align-items: start;
 
                 &__value {
-                    font-size: 2rem;
+                    font-size: 2.4rem;
+                    font-weight: bold;
                 }
 
                 &__unit {
-                    font-size: 1.2rem;
-                    margin-top: .3rem;
+                    font-size: 1.4rem;
+                    margin-top: .5rem;
                 }
             }
+
+            .description {
+                font-weight: bold;
+                font-size: 1.2rem;
+                width: 100%;
+                text-align: center;
+            }
+
+            .pop {
+                display: flex;
+                align-items: center;
+                font-size: 1.2rem;
+            }
         }
+    }
+}
+
+.hourly-carousel {
+    display: flex;
+
+    .button-navigation {
+        padding: 0 1rem;
+        cursor: pointer;
     }
 }
