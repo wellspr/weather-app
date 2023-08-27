@@ -1,7 +1,9 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { weatherCode, weatherDescription } from "~/data/weatherCodes";
+import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
 import { Forecast } from "~/types/types";
+import { title } from "~/utils/transforms";
+import { getWeekday } from "~/utils/weekdays";
 
 interface HourlyPreviewProps {
     forecast: Forecast;
@@ -18,6 +20,8 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
     const [weatherCodes, setWeatherCodes] = useState<number[]>([]);
     const [isDay, setIsDay] = useState<number[]>([]);
 
+    const [displayedDay, setDisplayedDay] = useState<string>("");
+
     useEffect(() => {
         const hourNow: number = new Date().getHours();
 
@@ -26,8 +30,7 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
             const units = forecast.hourly_units;
 
             const start = hourNow + 1;
-            //const end = hourNow + 25;
-            const end = hourNow + 168;
+            const end = hourNow + 49;
 
             setHours(hourly.time.slice(start, end));
             setHourlyTemperature(hourly.temperature_2m.slice(start, end));
@@ -38,37 +41,82 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
         }
     }, [forecast]);
 
+            
+    const selectVisibleCells = () => {
+        const visibleCells: Element[] = [];
+
+        if (listRef.current) {
+            const boxWidth = listRef.current?.clientWidth;
+
+            Object.values(listRef.current.children).map(item => {
+                const x = item.getBoundingClientRect().x;
+                const width = item.getBoundingClientRect().width;
+
+                if (x + width < boxWidth && x > 0) {
+                    visibleCells.push(item);
+                }
+            });
+
+            if (visibleCells[0]) {
+                const time = visibleCells[0].getAttribute("data-time");
+                if (time) {
+                    const date = new Date(Number(time));
+                    const day = date.getDay();
+                    const weekday = title(getWeekday(day));
+                    const today = new Date().getDay();
+                    if (day === today) {
+                        setDisplayedDay("Today");
+                    } else {
+                        setDisplayedDay(weekday);
+                    }
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        listRef.current?.scroll({ top: 0, left: 0, behavior: "instant" });
+        setDisplayedDay("Today");
+
+        listRef.current?.addEventListener("scroll", selectVisibleCells);
+
+        return () => {
+            listRef.current?.removeEventListener("scroll", selectVisibleCells);
+        }
+    }, []);
+    
     const renderHourlyData = () => {
         return hourlyTemperature.map((temp, index) => {
 
             const hour = new Date(hours[index]);
             const today = new Date().getDate();
-            const currentIcon = currentIcons(weatherCodes[index], isDay[index])
+            const currentIcon = currentIcons(weatherCodes[index], isDay[index]);
+            const customProps = { "data-time": hour.getTime() };
 
-            return <li key={index} className="item">
-                
+            return <li key={index} className="item" {...customProps}>
+
                 <div className="date">
-                    <span>{hour.getDate() === today ? "Today" : hour.toLocaleDateString()}</span>
+                    <span>{hour.getDate() === today ? "Today" : `${title(getWeekday(hour.getDay()))}, ${hour.getDate()}`}</span>
                     <div className="hour">
-                        <span className="hour__value">{hour.getHours()}</span> 
-                        <span className="hour__unit">hr</span> 
+                        <span className="hour__value">{hour.getHours()}</span>
+                        <span className="hour__unit">hr</span>
                     </div>
                 </div>
-                
+
                 <div className="temperature">
                     <span className="temperature__value">{temp.toFixed(0)}</span>
                     <span className="temperature__unit">{hourlyTemperatureUnits}</span>
                 </div>
-                
-                <div className="description">{weatherDescription(weatherCodes[index])}</div>
-                
+
                 <img src={`icons/wi/${currentIcon}.svg`} alt="icon" width="50px" />
-                
+
+                <div className="description">{weatherDescription(weatherCodes[index])}</div>
+
                 <div className="pop">
                     <img src="icons/wi/wi-rain.svg" alt="rain drop icon" width="16px" />
                     <span>{precipitationProbability[index]}%</span>
                 </div>
-                
+
                 <div>{isDay[index] ? "Day" : "Night"}</div>
             </li>
         });
@@ -76,14 +124,18 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
 
     return (
         <div className="hourly-preview">
-            <p>Next {hours.length} hours</p>
+            <div className="heading">
+                <p>Next {hours.length} hours ({displayedDay})</p>
+            </div>
 
             <div className="hourly-carousel">
                 <button
                     className="button button-navigation button-navigation__left"
                     onClick={() => {
                         if (listRef.current) {
-                            let left = listRef.current.scrollLeft - 300;
+                            const width = listRef.current.getBoundingClientRect().width;
+                            let left = listRef.current.scrollLeft - width;
+
                             listRef.current.scroll({
                                 top: 0,
                                 left,
@@ -91,7 +143,9 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
                             });
                         }
                     }}
-                ><img src="icons/regular/caret-left.svg" alt="left arrow" /></button>
+                >
+                    <img src="icons/regular/caret-left.svg" alt="left arrow" />
+                </button>
                 <ul className="list list-horizontal" ref={listRef}>
                     {renderHourlyData()}
                 </ul>
@@ -100,9 +154,8 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
                     onClick={() => {
                         if (listRef.current) {
                             const width = listRef.current.getBoundingClientRect().width;
-                            console.log(width);
-
                             let left = listRef.current.scrollLeft + width;
+
                             listRef.current.scroll({
                                 top: 0,
                                 left,
@@ -110,7 +163,9 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
                             });
                         }
                     }}
-                ><img src="icons/regular/caret-right.svg" alt="right arrow" /></button>
+                >
+                    <img src="icons/regular/caret-right.svg" alt="right arrow" />
+                </button>
             </div>
 
         </div>

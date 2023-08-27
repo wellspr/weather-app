@@ -1,7 +1,3 @@
-export const title = (string: string) => {
-    return string[0].toUpperCase() + string.slice(1);
-};
-
 export const getMonth = (monthNumber: number) => {
 
     switch (monthNumber) {

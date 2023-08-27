@@ -1,9 +1,4 @@
-import { weatherDescription } from "./weatherCodes";
-
 export const currentIcons = (weatherCode: number, isDay: number) => {
-
-    console.log("Code/Desc: ", weatherCode, weatherDescription(weatherCode));
-    console.log("isDay: ", isDay ? "Day" : "Night");
 
     let iconName = "wi-";
     iconName += `${isDay ? "day" : "night"}`;

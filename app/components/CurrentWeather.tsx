@@ -2,7 +2,8 @@ import { FC } from "react";
 import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
 import { Forecast, SelectedLocation } from "~/types/types";
-import { getMonth, title } from "~/utils/months";
+import { getMonth } from "~/utils/months";
+import { title } from "~/utils/transforms";
 
 interface WeatherPreviewProps {
     forecast: Forecast;
@@ -16,6 +17,8 @@ const CurrentWeather: FC<WeatherPreviewProps> = ({ forecast, selectedLocation })
             <p>Loading weather...</p>
         </div>
     );
+    console.log(forecast);
+    
 
     const currentWeather = forecast.current_weather;
 

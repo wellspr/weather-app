@@ -1,19 +1,29 @@
 .search-bar {
-    margin: 1rem;
+    margin: 2rem;
+    display: flex;
+    justify-content: center;
 }
 
-/*
+
 .input {
 
     &__search {
-
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid darkslateblue;
+        border-top-left-radius: .4rem;
+        border-bottom-left-radius: .4rem;
     }
 }
 
 .button {
 
     &__search {
-
+        padding: 1rem;
+        border: 1px solid darkslateblue;
+        border-left: none;
+        background-color: rgba(aliceblue, .3);
+        border-top-right-radius: .4rem;
+        border-bottom-right-radius: .4rem;
     }
 }
-*/
