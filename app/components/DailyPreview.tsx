@@ -44,7 +44,7 @@ const DailyPreview: FC<DailyPreviewProps> = ({ forecast }) => {
     }, [forecast]);
 
     useEffect(() => {
-        listRef.current?.scroll({ top: 0, left: 0, behavior: "instant"});
+        listRef.current?.scroll({ top: 0, left: 0, behavior: "instant" });
     }, []);
 
     return (
@@ -86,10 +86,14 @@ const DailyPreview: FC<DailyPreviewProps> = ({ forecast }) => {
                                         <img src="icons/regular/arrow-up.svg" alt="arrow up" width="20px" />
                                     </div>
                                     <div className="content">
-                                        <div className="temp__max">{temperatures?.max[index].toFixed(0)}{temperatureUnits?.max}</div>
+                                        <div className="temp__max">
+                                            <span className="temp__max__value">{temperatures?.max[index].toFixed(0)}</span>
+                                            <span className="temp__max__unit">{temperatureUnits?.max}</span>
+                                        </div>
                                         <div className="temp__apparent-max">
                                             <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
-                                            {temperatures?.apparent_max[index].toFixed(0)}{temperatureUnits?.apparent_max}
+                                            <span className="temp__apparent-max__value">{temperatures?.apparent_max[index].toFixed(0)}</span>
+                                            <span className="temp__apparent-max__unit">{temperatureUnits?.apparent_max}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -109,10 +113,14 @@ const DailyPreview: FC<DailyPreviewProps> = ({ forecast }) => {
                                         <img src="icons/regular/arrow-down.svg" alt="arrow down" width="20px" />
                                     </div>
                                     <div className="content">
-                                        <div className="temp__min">{temperatures?.min[index].toFixed(0)}{temperatureUnits?.min}</div>
+                                        <div className="temp__min">
+                                            <span className="temp__max__value">{temperatures?.min[index].toFixed(0)}</span>
+                                            <span className="temp__max__unit">{temperatureUnits?.min}</span>
+                                        </div>
                                         <div className="temp__apparent-min">
                                             <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
-                                            {temperatures?.apparent_min[index].toFixed(0)}{temperatureUnits?.apparent_min}
+                                            <span className="temp__apparent-min__value">{temperatures?.apparent_min[index].toFixed(0)}</span>
+                                            <span className="temp__apparent-min__unit">{temperatureUnits?.apparent_min}</span>
                                         </div>
                                     </div>
                                 </div>

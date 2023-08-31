@@ -17,8 +17,6 @@ const CurrentWeather: FC<WeatherPreviewProps> = ({ forecast, selectedLocation })
             <p>Loading weather...</p>
         </div>
     );
-    console.log(forecast);
-    
 
     const currentWeather = forecast.current_weather;
 
@@ -53,18 +51,24 @@ const CurrentWeather: FC<WeatherPreviewProps> = ({ forecast, selectedLocation })
             <div className="header">
                 <div className="datestring"> Today ( {currentDateString} ) </div>
 
-                <h2 className="location">{selectedLocation?.name}, {selectedLocation?.country}</h2>
+                <h2 className="location">
+                    {selectedLocation?.name}, {selectedLocation?.country}
+                </h2>
             </div>
 
             <div className="main">
                 <div className="feature">
-                    <h3 className="current-weather__temp">
-                        <span className="current-weather__temp__value">{currentWeather.temperature.toFixed(0)}</span>
-                        <span className="current-weather__temp__unit">{hourlyUnits.temperature_2m}</span>
+                    <h3 className="temp">
+                        <span className="temp__value">
+                            {currentWeather.temperature.toFixed(0)}
+                        </span>
+                        <span className="temp__unit">
+                            {hourlyUnits.temperature_2m}
+                        </span>
                     </h3>
 
                     <img
-                        className="current-weather__icon"
+                        className="icon"
                         src={`icons/wi/${currentIcon}.svg`}
                         alt="weather icon"
                         width="100px"
@@ -72,7 +76,7 @@ const CurrentWeather: FC<WeatherPreviewProps> = ({ forecast, selectedLocation })
                     />
                 </div>
 
-                <div className="current-weather__description">{weatherDescription(weatherCode)}</div>
+                <div className="description">{weatherDescription(weatherCode)}</div>
             </div>
 
             <div className="minor">

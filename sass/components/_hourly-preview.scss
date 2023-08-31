@@ -23,16 +23,17 @@
             gap: 0.3rem;
 
             background-color: aliceblue;
-            border: 1px solid darkslateblue;
+            border: 2px solid darkslateblue;
             border-radius: 0.5rem;
 
             .temperature {
                 display: flex;
                 align-items: start;
+                font-weight: bold;
 
                 &__value {
+                    font-family: 'Merriweather', serif;
                     font-size: 2.4rem;
-                    font-weight: bold;
                 }
 
                 &__unit {
@@ -60,7 +61,7 @@
 .daily-preview {
     .list {
         background-color: rgba(lightblue, 0.1);
-        
+
         .item > * {
             margin: 0.4rem 0;
         }
@@ -77,14 +78,35 @@
 
                 &__max,
                 &__min {
-                    font-size: 2.4rem;
+                    font-weight: bold;
+                    display: flex;
+                    align-items: flex-start;
+
+                    &__value {
+                        font-family: 'Merriweather', serif;
+                        font-size: 2.4rem;
+                    }
+
+                    &__unit {
+                        font-size: 1.4rem;
+                        margin-top: .4rem;
+                    }
                 }
 
                 &__apparent-max,
                 &__apparent-min {
                     display: flex;
                     align-items: center;
-                    font-size: 1.4rem;
+                    
+                    &__value {
+                        font-family: 'Merriweather', serif;
+                        font-size: 1.6rem;
+                    }
+
+                    &__unit {
+                        font-size: 1.2rem;
+                    }
+
                 }
             }
 
@@ -117,6 +139,32 @@
                     }
                 }
             }
+
+            .temperature {
+                img {
+                    color: white;
+                }
+            }
+        }
+        
+        .day-0 {
+            border-color: green;
+            background-color: rgba(green, .1);
+        }
+
+        .day-1 {
+            border-color: blue;
+            background-color: rgba(blue, .1);
+        }
+
+        .day-2 {
+            border-color: orange;
+            background-color: rgba(orange, .1);
+        }
+
+        .day-3 {
+            border-color: red;
+            background-color: rgba(red, .1);
         }
     }
 }

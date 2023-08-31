@@ -40,7 +40,6 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
             setIsDay(hourly.is_day.slice(start, end));
         }
     }, [forecast]);
-
             
     const selectVisibleCells = () => {
         const visibleCells: Element[] = [];
@@ -66,6 +65,8 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
                     const today = new Date().getDay();
                     if (day === today) {
                         setDisplayedDay("Today");
+                    } else if (day === today + 1) {
+                        setDisplayedDay("Tomorrow");
                     } else {
                         setDisplayedDay(weekday);
                     }
@@ -85,6 +86,7 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
         }
     }, []);
     
+    let day = 0;
     const renderHourlyData = () => {
         return hourlyTemperature.map((temp, index) => {
 
@@ -93,7 +95,9 @@ const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
             const currentIcon = currentIcons(weatherCodes[index], isDay[index]);
             const customProps = { "data-time": hour.getTime() };
 
-            return <li key={index} className="item" {...customProps}>
+            if (hour.getHours() === 0) day++;
+
+            return <li key={index} className={`item day-${day}`} {...customProps}>
 
                 <div className="date">
                     <span>{hour.getDate() === today ? "Today" : `${title(getWeekday(hour.getDay()))}, ${hour.getDate()}`}</span>
