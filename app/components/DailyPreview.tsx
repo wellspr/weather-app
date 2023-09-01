@@ -1,15 +1,13 @@
 import { FC, useEffect, useRef, useState } from "react";
+import { useWeather } from "~/context";
 import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
-import { Forecast } from "~/types/types";
 import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
 
-interface DailyPreviewProps {
-    forecast: Forecast;
-}
+const DailyPreview: FC = () => {
 
-const DailyPreview: FC<DailyPreviewProps> = ({ forecast }) => {
+    const { forecast } = useWeather();
 
     const [times, setTimes] = useState<string[]>([]);
     const [temperatures, setTemperatures] = useState<{ max: number[], min: number[], apparent_max: number[], apparent_min: number[] } | null>(null);

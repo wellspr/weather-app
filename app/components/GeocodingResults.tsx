@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { CircleFlag } from "react-circle-flags";
-import { Geocoding, Location } from "~/types/types";
+import { useLocation } from "~/context";
+import { useSearchBarContext } from "./SearchWeather";
 
-interface GeocodingResultsProps {
-    geocoding: Geocoding;
-    selectLocation: (location: Location) => void;
-}
+const GeocodingResults: FC = () => {
 
-const GeocodingResults: FC<GeocodingResultsProps> = ({ geocoding, selectLocation }) => {
+    const { setShowSearchBar } = useSearchBarContext();
+
+    const { geocoding, selectLocation } = useLocation();
 
     if (!geocoding) return null;
 
@@ -20,7 +20,10 @@ const GeocodingResults: FC<GeocodingResultsProps> = ({ geocoding, selectLocation
             <li
                 key={location.id}
                 className="item"
-                onClick={() => selectLocation(location)}
+                onClick={() => { 
+                    selectLocation(location);
+                    setShowSearchBar(false);
+                }}
             >
                 <div>
                     <CircleFlag

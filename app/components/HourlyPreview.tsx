@@ -1,15 +1,13 @@
 import { FC, useEffect, useRef, useState } from "react";
+import { useWeather } from "~/context";
 import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
-import { Forecast } from "~/types/types";
 import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
 
-interface HourlyPreviewProps {
-    forecast: Forecast;
-}
+const HourlyPreview: FC = () => {
 
-const HourlyPreview: FC<HourlyPreviewProps> = ({ forecast }) => {
+    const { forecast } = useWeather();
 
     const listRef = useRef<HTMLUListElement>(null);
 

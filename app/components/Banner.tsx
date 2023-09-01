@@ -1,13 +1,10 @@
 import { FC } from "react";
-import { SelectedLocation } from "~/types/types";
+import { useLocation } from "~/context";
 
-interface BannerProps {
-    loadingGeolocation: boolean;
-    selectedLocation: SelectedLocation;
-}
+const Banner: FC = () => {
 
-const Banner: FC<BannerProps> = ({ loadingGeolocation, selectedLocation }) => {
-
+    const { selectedLocation, loadingGeolocation } = useLocation();
+    
     return (
         <div className="banner banner__current-location">
             {

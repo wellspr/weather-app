@@ -1,16 +1,14 @@
 import { FC } from "react";
+import { useLocation, useWeather } from "~/context";
 import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
-import { Forecast, SelectedLocation } from "~/types/types";
 import { getMonth } from "~/utils/months";
 import { title } from "~/utils/transforms";
 
-interface WeatherPreviewProps {
-    forecast: Forecast;
-    selectedLocation: SelectedLocation;
-}
+const CurrentWeather: FC = () => {
 
-const CurrentWeather: FC<WeatherPreviewProps> = ({ forecast, selectedLocation }) => {
+    const { selectedLocation } = useLocation();
+    const { forecast } = useWeather();    
 
     if (!forecast) return (
         <div>

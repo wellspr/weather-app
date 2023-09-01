@@ -1,13 +1,13 @@
 import localforage from "localforage";
 import { FC, useState } from "react";
+import { useLocation } from "~/context";
 import { Location } from "~/types/types";
+import { useSearchBarContext } from "./SearchWeather";
 
-interface SavedLocationsProps {
-    selectLocation: (location: Location) => void;
-}
+const SavedLocations: FC = () => {
 
-const SavedLocations: FC<SavedLocationsProps> = ({ selectLocation }) => {
-
+    const { setShowSearchBar } = useSearchBarContext();
+    const { selectLocation } = useLocation();
     const [locations, setLocations] = useState<Location[] | null>(null);
 
     const getLocations = async () => {
@@ -25,7 +25,10 @@ const SavedLocations: FC<SavedLocationsProps> = ({ selectLocation }) => {
                             <li
                                 key={location?.id}
                                 className="item"
-                                onClick={() => selectLocation(location)}
+                                onClick={() => {
+                                    selectLocation(location);
+                                    setShowSearchBar(false);
+                                }}
                             >
                                 <p>{location?.name}, {location?.admin1}, {location?.country_code}</p>
                                 <span>(lat: {location?.latitude}, lon: {location?.longitude}, elevation: {location?.elevation}m )</span>

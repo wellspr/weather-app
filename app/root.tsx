@@ -8,6 +8,7 @@ import {
     Scripts,
     ScrollRestoration,
 } from "@remix-run/react";
+import { LocationProvider, WeatherProvider } from "./context";
 
 export const links: LinksFunction = () => {
     return [{ rel: "stylesheet", href: appStyles }];
@@ -23,16 +24,20 @@ const App = () => {
                 <Links />
             </head>
             <body>
-                <header className="header"></header>
-                <main className="main-component">
-                    <Outlet />
-                </main>
-                <footer className="footer"></footer>
+                <WeatherProvider>
+                    <LocationProvider>
+                        <header className="header"></header>
+                        <main className="main-component">
+                            <Outlet />
+                        </main>
+                        <footer className="footer"></footer>
+                    </LocationProvider>
+                </WeatherProvider>
                 <ScrollRestoration />
                 <Scripts />
                 <LiveReload />
             </body>
-        </html>
+        </html >
     );
 };
 

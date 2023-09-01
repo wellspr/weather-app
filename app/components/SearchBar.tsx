@@ -1,11 +1,9 @@
 import React, { useState } from "react";
+import { useLocation } from "~/context";
 
-interface SearchBarProps {
-    fetchGeocodingData: ({ searchTerm }: { searchTerm: string }) => Promise<void>;
-}
-
-const SearchBar: React.FC<SearchBarProps> = ({ fetchGeocodingData }) => {
+const SearchBar: React.FC = () => {
     
+    const { fetchGeocodingData } = useLocation();
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
