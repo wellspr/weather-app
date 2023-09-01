@@ -285,7 +285,7 @@ body {
   .homepage {
     display: grid;
     grid-template-rows: repeat(5, auto);
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 50% 50%;
   }
 }
 
@@ -311,6 +311,23 @@ body {
 
 .saved-locations {
   grid-area: 5/1/5/-1;
+}
+
+@media (max-width: 1024px) {
+  .homepage .banner, .homepage .search-bar, .homepage .current-weather {
+    margin-left: 0.8rem;
+    margin-right: 0.8rem;
+  }
+  .homepage .hourly-preview, .homepage .daily-preview {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .homepage .hourly-preview .heading, .homepage .daily-preview .heading {
+    margin: 0.8rem;
+  }
+  .button-navigation__left, .button-navigation__right {
+    padding: 0 !important;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

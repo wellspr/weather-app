@@ -1,0 +1,26 @@
+@media (max-width: 1024px) {
+
+    .homepage {
+
+        .banner, .search-bar, .current-weather {
+            margin-left: .8rem;
+            margin-right: .8rem;
+        }
+
+        .hourly-preview, .daily-preview {
+            margin-left: 0;
+            margin-right: 0;
+
+            .heading {
+                margin: .8rem;
+            }
+        }
+    }
+
+    .button-navigation {
+        
+        &__left, &__right {
+            padding: 0 !important;
+        }
+    }
+}
