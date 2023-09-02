@@ -1,15 +1,28 @@
 .search-weather {
-    margin: 1rem;
-    display: flex;
+    padding: 1rem 0;
+    width: 100%;
 }
 
 .search-popup {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    background-color: beige;
+    background-color: rgba(beige, .95);
     width: 100%;
     height: 100vh;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 0 2rem;
+    padding-top: 5rem;
+
+    & > * {
+        width: 100%;
+        max-width: 100rem;
+    }
 }
 
 .button {
@@ -19,5 +32,17 @@
         border: 2px solid darkslateblue;
         border-radius: 1rem;
         width: 100%;
+        font-size: 1.6rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &-close {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        width: fit-content;
     }
 }

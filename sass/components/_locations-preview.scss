@@ -1,16 +1,15 @@
 .geocoding-results, .saved-locations {
-    max-height: 30rem;
-    width: 30rem;
+    max-height: 70vh;
     overflow-y: scroll;
-    border: 0.1rem solid lightgray;
-    margin: 1rem;
+    border: 0.2rem solid lightgray;
+    border-radius: .4rem;
 
     .list {
         list-style: none;
+        width: 100%;
         
         .item {
             cursor: pointer;
-            margin: 1rem;
             padding-bottom: 1rem;
             
             &:not(:last-child) {

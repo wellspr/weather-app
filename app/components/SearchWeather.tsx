@@ -88,10 +88,17 @@ const SearchWeather = () => {
             <SearchBarContext.Provider value={{ showSearchBar, setShowSearchBar }}>
                 <div className="search-weather">
                     <div className="search-popup">
-                        <button className="button" onClick={() => setShowSearchBar(false)}>Close</button>
+                        <button
+                            className="button button-close"
+                            onClick={() => setShowSearchBar(false)}>
+                            <img src="icons/regular/x.svg" alt="close" />
+                        </button>
                         <SearchBar />
-                        <SavedLocations />
-                        <GeocodingResults />
+                        {
+                            geocoding ?
+                                <GeocodingResults /> :
+                                <SavedLocations />
+                        }
                     </div>
                 </div>
             </SearchBarContext.Provider>
@@ -103,7 +110,8 @@ const SearchWeather = () => {
                     className="button button__search-weather"
                     onClick={() => setShowSearchBar(true)}
                 >
-                    Search Location
+                    <img src="icons/regular/search.svg" alt="search" />
+                    <span className="label">Search Location</span>
                 </button>
             </div>
         );

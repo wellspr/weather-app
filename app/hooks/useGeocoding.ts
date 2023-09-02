@@ -30,5 +30,9 @@ export const useGeocoding = () => {
         }
     };
 
-    return { geocoding, fetchGeocodingData };
+    const unsetGeocoding = () => {
+        setGeocoding(null);
+    };
+
+    return { geocoding, fetchGeocodingData, unsetGeocoding };
 };

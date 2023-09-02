@@ -44,6 +44,6 @@ export const useNavigatorGeolocation = () => {
 
     return {
         loadingGeolocation: message.fetchingPosition,
-        geolocation
+        geolocation,
     };
 };

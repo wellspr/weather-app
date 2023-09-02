@@ -1,5 +1,5 @@
 import localforage from "localforage";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useLocation } from "~/context";
 import { Location } from "~/types/types";
 import { useSearchBarContext } from "./SearchWeather";
@@ -9,15 +9,18 @@ const SavedLocations: FC = () => {
     const { setShowSearchBar } = useSearchBarContext();
     const { selectLocation } = useLocation();
     const [locations, setLocations] = useState<Location[] | null>(null);
-
+    
     const getLocations = async () => {
         const cached: Location[] | null = await localforage.getItem("locations");
         setLocations(cached);
     };
 
+    useEffect(() => {
+        getLocations();
+    }, []);
+
     return (
         <div className="saved-locations">
-            <button onClick={() => getLocations()}>Saved locations</button>
             <ul className="list">
                 {
                     locations?.map(location => {

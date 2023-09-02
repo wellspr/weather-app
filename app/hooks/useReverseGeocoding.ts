@@ -37,5 +37,9 @@ export const useReverseGeocoding = () => {
         });
     };
 
-    return { reverseGeocoding, fetchReverseGeocodingData };
+    const unsetReverseGeocoding = () => {
+        setReverseGeocoding(null);
+    };
+
+    return { reverseGeocoding, fetchReverseGeocodingData, unsetReverseGeocoding };
 };

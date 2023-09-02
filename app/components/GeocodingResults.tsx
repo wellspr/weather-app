@@ -7,7 +7,7 @@ const GeocodingResults: FC = () => {
 
     const { setShowSearchBar } = useSearchBarContext();
 
-    const { geocoding, selectLocation } = useLocation();
+    const { geocoding, unsetGeocoding, selectLocation } = useLocation();
 
     if (!geocoding) return null;
 
@@ -23,6 +23,7 @@ const GeocodingResults: FC = () => {
                 onClick={() => { 
                     selectLocation(location);
                     setShowSearchBar(false);
+                    unsetGeocoding();
                 }}
             >
                 <div>

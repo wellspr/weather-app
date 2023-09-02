@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode } from "react";
 import { LocationContext } from "./LocationContext";
 import { useNavigatorGeolocation } from "~/hooks/useNavigatorGeolocation";
 import { useGeocoding } from "~/hooks/useGeocoding";
@@ -13,17 +13,15 @@ interface LocationProviderProps {
 const LocationProvider: FC<LocationProviderProps> = ({ children }) => {
     
     const { geolocation, loadingGeolocation } = useNavigatorGeolocation();
-    const { geocoding, fetchGeocodingData } = useGeocoding();
-    const { reverseGeocoding, fetchReverseGeocodingData } = useReverseGeocoding();
+    const { geocoding, fetchGeocodingData, unsetGeocoding } = useGeocoding();
+    const { reverseGeocoding, fetchReverseGeocodingData, unsetReverseGeocoding } = useReverseGeocoding();
     const {selectedLocation, setSelectedLocation, selectLocation} = useSelectedLocation();
 
     const providerValue: LocationType = { 
         geolocation, 
         loadingGeolocation,
-        geocoding,
-        fetchGeocodingData,
-        reverseGeocoding,
-        fetchReverseGeocodingData,
+        geocoding, fetchGeocodingData, unsetGeocoding,
+        reverseGeocoding, fetchReverseGeocodingData, unsetReverseGeocoding,
         selectedLocation,
         setSelectedLocation,
         selectLocation,

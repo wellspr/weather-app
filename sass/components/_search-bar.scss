@@ -1,16 +1,16 @@
 .search-bar {
-    margin: 2rem;
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 0;
 }
-
 
 .input {
 
     &__search {
         width: 100%;
         padding: 1rem;
-        border: 1px solid darkslateblue;
+        border: 2px solid darkslateblue;
         border-top-left-radius: .4rem;
         border-bottom-left-radius: .4rem;
     }
@@ -20,7 +20,7 @@
 
     &__search {
         padding: 1rem;
-        border: 1px solid darkslateblue;
+        border: 2px solid darkslateblue;
         border-left: none;
         background-color: rgba(aliceblue, .3);
         border-top-right-radius: .4rem;
