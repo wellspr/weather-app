@@ -105,7 +105,7 @@ const UpdateCurrentLocation = () => {
                 </div>
             </div>
 
-            <GeocodingResults geocoding={geolocation} selectLocation={selectLocation} />
+            <GeocodingResults />
         </div>
     );
 };

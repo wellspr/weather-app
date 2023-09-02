@@ -1,6 +1,6 @@
 import localforage from "localforage";
-import { useState } from "react";
-import { Forecast } from "~/types/types";
+import { useEffect, useState } from "react";
+import { Forecast, Location } from "~/types/types";
 
 type Cache = { 
     cacheTime: number; 
@@ -60,6 +60,31 @@ export const useWeatherData = () => {
             fetchFreshData();
         }
     };
+
+    useEffect(() => {
+        const checkAndFetch = async () => {
+            console.log("Focus on window");
+            const lastSelectedLocation: Location = await localforage.getItem("lastSelectedLocation");
+
+            if (lastSelectedLocation) {
+                console.log("Selected Location: ", lastSelectedLocation);
+
+                fetchWeatherData({
+                    latitude: lastSelectedLocation?.latitude,
+                    longitude: lastSelectedLocation?.longitude,
+                    name: lastSelectedLocation?.name,
+                });
+            } else {
+                console.log("no location selected.");
+            }
+        };
+
+        window.addEventListener("focus", checkAndFetch);
+
+        return () => {
+            window.removeEventListener("focus", checkAndFetch);
+        }
+    }, []);
 
     return { forecast, fetchWeatherData };
 };
