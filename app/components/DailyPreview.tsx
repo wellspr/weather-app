@@ -53,6 +53,14 @@ const DailyPreview: FC = () => {
         );
     }
 
+    if (!forecast) {
+        return (
+            <div className="daily-preview loading">
+                Loading weather...
+            </div>
+        );
+    }
+
     return (
         <div className="daily-preview">
             <div className="heading">

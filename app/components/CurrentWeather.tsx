@@ -142,19 +142,13 @@ const WeatherCard = ({ weatherData }: { weatherData: WeatherDataType }) => {
 const CurrentWeather: FC = () => {
 
     const { selectedLocation } = useLocation();
+
+    //forecast = null;
     let { forecast } = useWeather();
 
     //forecast = null;
 
-    if (!forecast) return (
-        /*
-        <div className="current-weather loading">
-            <p>Loading weather...</p>
-        </div>
-        */
-        <WeatherCard weatherData={null} />
-
-    );
+    if (!forecast) return <WeatherCard weatherData={null} />;
 
     const currentWeather = forecast?.current_weather;
 

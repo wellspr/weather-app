@@ -195,10 +195,12 @@ body {
 .current-weather .sun {
   font-size: 1.4rem;
   margin-bottom: 1rem;
+  min-height: 6rem;
 }
 .current-weather .sun__rise, .current-weather .sun__set {
   display: flex;
   align-items: center;
+  min-height: 3rem;
 }
 .current-weather .update-info {
   font-size: 1.2rem;

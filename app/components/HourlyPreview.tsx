@@ -96,7 +96,6 @@ const HourlyPreview: FC = () => {
             if (hour.getHours() === 0) day++;
 
             return <li key={index} className={`item day-${day}`} {...customProps}>
-
                 <div className="date">
                     <span>{hour.getDate() === today ? "Today" : `${title(getWeekday(hour.getDay()))}, ${hour.getDate()}`}</span>
                     <div className="hour">
@@ -128,6 +127,14 @@ const HourlyPreview: FC = () => {
         return (
             <div className="hourly-preview loading">
                 Loading data...
+            </div>
+        );
+    }
+    
+    if (!forecast) {
+        return (
+            <div className="hourly-preview loading">
+                Loading weather...
             </div>
         );
     }
