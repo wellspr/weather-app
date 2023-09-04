@@ -4,6 +4,7 @@ import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
 import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
+import Carousel from "./Carousel";
 
 const DailyPreview: FC = () => {
 
@@ -67,22 +68,7 @@ const DailyPreview: FC = () => {
                 <p>{times.length}-Days Preview</p>
             </div>
 
-            <div className="daily-carousel">
-                <button
-                    className="button button-navigation button-navigation__left"
-                    onClick={() => {
-                        if (listRef.current) {
-                            const width = listRef.current.getBoundingClientRect().width;
-                            let left = listRef.current.scrollLeft - width;
-
-                            listRef.current.scroll({
-                                top: 0,
-                                left,
-                                behavior: "smooth",
-                            });
-                        }
-                    }}
-                ><img src="icons/regular/caret-left.svg" alt="left arrow" /></button>
+            <Carousel id="daily" listRef={listRef}>
                 <ul className="list" ref={listRef} >
                     {
                         times.map((time, index) => {
@@ -142,22 +128,7 @@ const DailyPreview: FC = () => {
                         })
                     }
                 </ul>
-                <button
-                    className="button button-navigation button-navigation__right"
-                    onClick={() => {
-                        if (listRef.current) {
-                            const width = listRef.current.getBoundingClientRect().width;
-                            let left = listRef.current.scrollLeft + width;
-
-                            listRef.current.scroll({
-                                top: 0,
-                                left,
-                                behavior: "smooth",
-                            });
-                        }
-                    }}
-                ><img src="icons/regular/caret-right.svg" alt="right arrow" /></button>
-            </div>
+            </Carousel>
         </div>
     );
 };
