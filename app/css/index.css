@@ -66,6 +66,10 @@ body {
   align-items: center;
   gap: 1rem;
 }
+.button__search-weather img, .button__search-weather .label {
+  height: 2rem;
+  min-height: 2rem;
+}
 .button-close {
   position: absolute;
   top: 2rem;
@@ -97,6 +101,41 @@ body {
   border-bottom-right-radius: 0.4rem;
 }
 
+.current-weather .loading {
+  background-color: lightgray;
+  min-width: 25rem;
+}
+.current-weather .header {
+  min-height: 5.5rem;
+}
+.current-weather .header.loading {
+  min-width: 30rem;
+}
+.current-weather .main {
+  min-height: 12.7rem;
+}
+.current-weather .main.loading {
+  min-width: 20rem;
+}
+.current-weather .minor {
+  min-height: 9rem;
+}
+.current-weather .minor.loading {
+  min-width: 12rem;
+}
+.current-weather .sun {
+  min-height: 6rem;
+}
+.current-weather .sun.loading {
+  min-width: 10rem;
+}
+.current-weather .update-info {
+  min-height: 1.5rem;
+}
+.current-weather .update-info.loading {
+  min-width: 15rem;
+}
+
 .current-weather {
   display: flex;
   flex-direction: column;
@@ -121,6 +160,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
+  min-height: 10rem;
 }
 .current-weather .main .feature .temp {
   display: flex;
@@ -132,6 +172,10 @@ body {
 .current-weather .main .feature .temp__unit {
   font-size: 2.8rem;
   margin-top: 1.4rem;
+}
+.current-weather .main .feature .icon {
+  min-width: 10rem;
+  min-height: 10rem;
 }
 .current-weather .main .description {
   font-size: 1.8rem;
@@ -155,6 +199,17 @@ body {
 .current-weather .sun__rise, .current-weather .sun__set {
   display: flex;
   align-items: center;
+}
+.current-weather .update-info {
+  font-size: 1.2rem;
+}
+
+.current-weather.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 45rem;
 }
 
 .geocoding-results, .saved-locations {
@@ -317,6 +372,14 @@ body {
 .daily-carousel .button-navigation {
   padding: 0 1rem;
   cursor: pointer;
+}
+
+.hourly-preview.loading, .daily-preview.loading {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  min-height: 10rem;
 }
 
 .homepage {

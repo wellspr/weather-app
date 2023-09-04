@@ -38,7 +38,7 @@ const HourlyPreview: FC = () => {
             setIsDay(hourly.is_day.slice(start, end));
         }
     }, [forecast]);
-            
+
     const selectVisibleCells = () => {
         const visibleCells: Element[] = [];
 
@@ -83,7 +83,7 @@ const HourlyPreview: FC = () => {
             listRef.current?.removeEventListener("scroll", selectVisibleCells);
         }
     }, []);
-    
+
     let day = 0;
     const renderHourlyData = () => {
         return hourlyTemperature.map((temp, index) => {
@@ -124,6 +124,14 @@ const HourlyPreview: FC = () => {
         });
     };
 
+    if (!forecast) {
+        return (
+            <div className="hourly-preview loading">
+                Loading data...
+            </div>
+        );
+    }
+    
     return (
         <div className="hourly-preview">
             <div className="heading">
@@ -169,7 +177,6 @@ const HourlyPreview: FC = () => {
                     <img src="icons/regular/caret-right.svg" alt="right arrow" />
                 </button>
             </div>
-
         </div>
     );
 };

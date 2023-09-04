@@ -1,3 +1,50 @@
+$loading-background-color: lightgray;
+
+.current-weather {
+    .loading {
+        background-color: $loading-background-color;
+        min-width: 25rem;
+    }
+
+    .header {
+        min-height: 5.5rem;
+            
+        &.loading {
+            min-width: 30rem;
+        }
+    }
+
+    .main {
+        min-height: 12.7rem;
+
+        &.loading {
+            min-width: 20rem;
+        }
+    }
+
+    .minor {
+        &.loading {
+            min-width: 12rem;
+        }
+        min-height: 9rem;
+    }
+
+    .sun {
+        &.loading {
+            min-width: 10rem;
+        }
+        min-height: 6rem;
+    }
+
+    .update-info {
+
+        &.loading {
+            min-width: 15rem;
+        }
+        min-height: 1.5rem;
+    }
+}
+
 .current-weather {
     display: flex;
     flex-direction: column;
@@ -8,7 +55,8 @@
     border-radius: 1rem;
     padding: 1rem 0;
 
-    .header {
+
+    .header {               
         .datestring {
             font-size: 1.6rem;
         }
@@ -20,13 +68,15 @@
 
     .main {
         margin: 2.4rem 0;
-
+        
         .feature {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
+
+            min-height: 10rem;
 
             .temp {
                 display: flex;
@@ -40,6 +90,12 @@
                     font-size: 2.8rem;
                     margin-top: 1.4rem;
                 }
+
+            }
+            
+            .icon {
+                min-width: 10rem;
+                min-height: 10rem;
             }
         }
 
@@ -71,4 +127,18 @@
             align-items: center;
         }
     }
+
+    .update-info {
+        font-size: 1.2rem;
+    }
+}
+
+
+.current-weather.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+
+    min-height: 45rem;
 }

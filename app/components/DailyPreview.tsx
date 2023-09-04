@@ -45,6 +45,14 @@ const DailyPreview: FC = () => {
         listRef.current?.scroll({ top: 0, left: 0, behavior: "instant" });
     }, []);
 
+    if (!forecast) {
+        return (
+            <div className="daily-preview loading">
+                Loading data...
+            </div>
+        );
+    }
+
     return (
         <div className="daily-preview">
             <div className="heading">
