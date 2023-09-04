@@ -230,6 +230,28 @@ body {
   border-bottom: 0.1rem solid lightgray;
 }
 
+.hourly-preview {
+  min-height: 31rem;
+}
+.hourly-preview.loading .list {
+  background-color: lightgray;
+}
+.hourly-preview .list {
+  width: 100%;
+  min-height: 24rem;
+}
+
+.daily-preview {
+  min-height: 34rem;
+}
+.daily-preview.loading .list {
+  background-color: lightgray;
+}
+.daily-preview .list {
+  width: 100%;
+  min-height: 31rem;
+}
+
 .hourly-preview .heading,
 .daily-preview .heading {
   margin-left: 2rem;
@@ -374,12 +396,12 @@ body {
   cursor: pointer;
 }
 
-.hourly-preview.loading, .daily-preview.loading {
+.hourly-preview.loading,
+.daily-preview.loading {
   display: flex;
   flex-grow: 1;
   justify-content: center;
   align-items: center;
-  min-height: 10rem;
 }
 
 .homepage {

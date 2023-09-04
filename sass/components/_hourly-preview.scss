@@ -1,3 +1,29 @@
+.hourly-preview {
+    &.loading .list {
+        background-color: lightgray;
+    }
+
+    min-height: 31rem;
+
+    .list {
+        width: 100%;
+        min-height: 24rem;
+    }
+}
+
+.daily-preview {
+    &.loading .list {
+        background-color: lightgray;
+    }
+
+    min-height: 34rem;
+
+    .list {
+        width: 100%;
+        min-height: 31rem;
+    }
+}
+
 .hourly-preview,
 .daily-preview {
     //margin: 1rem;
@@ -32,7 +58,7 @@
                 font-weight: bold;
 
                 &__value {
-                    font-family: 'Merriweather', serif;
+                    font-family: "Merriweather", serif;
                     font-size: 2.4rem;
                 }
 
@@ -83,13 +109,13 @@
                     align-items: flex-start;
 
                     &__value {
-                        font-family: 'Merriweather', serif;
+                        font-family: "Merriweather", serif;
                         font-size: 2.4rem;
                     }
 
                     &__unit {
                         font-size: 1.4rem;
-                        margin-top: .4rem;
+                        margin-top: 0.4rem;
                     }
                 }
 
@@ -97,16 +123,15 @@
                 &__apparent-min {
                     display: flex;
                     align-items: center;
-                    
+
                     &__value {
-                        font-family: 'Merriweather', serif;
+                        font-family: "Merriweather", serif;
                         font-size: 1.6rem;
                     }
 
                     &__unit {
                         font-size: 1.2rem;
                     }
-
                 }
             }
 
@@ -146,25 +171,25 @@
                 }
             }
         }
-        
+
         .day-0 {
             border-color: green;
-            background-color: rgba(green, .1);
+            background-color: rgba(green, 0.1);
         }
 
         .day-1 {
             border-color: blue;
-            background-color: rgba(blue, .1);
+            background-color: rgba(blue, 0.1);
         }
 
         .day-2 {
             border-color: orange;
-            background-color: rgba(orange, .1);
+            background-color: rgba(orange, 0.1);
         }
 
         .day-3 {
             border-color: red;
-            background-color: rgba(red, .1);
+            background-color: rgba(red, 0.1);
         }
     }
 }
@@ -179,11 +204,10 @@
     }
 }
 
-.hourly-preview.loading, .daily-preview.loading {
+.hourly-preview.loading,
+.daily-preview.loading {
     display: flex;
     flex-grow: 1;
     justify-content: center;
     align-items: center;
-
-    min-height: 10rem;
 }
