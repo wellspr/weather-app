@@ -123,6 +123,10 @@ body {
 .current-weather .minor.loading {
   min-width: 12rem;
 }
+.current-weather .minor .feature {
+  height: 3.5rem;
+  min-height: 3.5rem;
+}
 .current-weather .sun {
   min-height: 6rem;
 }

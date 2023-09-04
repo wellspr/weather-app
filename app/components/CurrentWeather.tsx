@@ -143,10 +143,7 @@ const CurrentWeather: FC = () => {
 
     const { selectedLocation } = useLocation();
 
-    //forecast = null;
-    let { forecast } = useWeather();
-
-    //forecast = null;
+    const { forecast } = useWeather();
 
     if (!forecast) return <WeatherCard weatherData={null} />;
 

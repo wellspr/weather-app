@@ -42,17 +42,62 @@ const DailyPreview: FC = () => {
         }
     }, [forecast]);
 
-    useEffect(() => {
-        listRef.current?.scroll({ top: 0, left: 0, behavior: "instant" });
-    }, []);
+    const renderDailyData = () => {
+        return times.map((time, index) => {
 
-    if (!forecast) {
-        return (
-            <div className="daily-preview loading">
-                Loading data...
-            </div>
-        );
-    }
+            const date = new Date(time + "T00:00");
+
+            return <li key={index} className="item">
+                <h2 className="date">
+                    {title(getWeekday(date.getDay()))}, {date.getDate()}
+                </h2>
+
+                <div className="temp">
+                    <div className="icon">
+                        <img src="icons/regular/arrow-up.svg" alt="arrow up" width="20px" />
+                    </div>
+                    <div className="content">
+                        <div className="temp__max">
+                            <span className="temp__max__value">{temperatures?.max[index].toFixed(0)}</span>
+                            <span className="temp__max__unit">{temperatureUnits?.max}</span>
+                        </div>
+                        <div className="temp__apparent-max">
+                            <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
+                            <span className="temp__apparent-max__value">{temperatures?.apparent_max[index].toFixed(0)}</span>
+                            <span className="temp__apparent-max__unit">{temperatureUnits?.apparent_max}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="feature">
+                    <img
+                        src={`icons/wi/${currentIcons(weatherCodes[index], 1)}.svg`}
+                        alt="icon"
+                        width="60px"
+                    />
+
+                    <p className="description">{weatherDescription(weatherCodes[index])}</p>
+                </div>
+
+                <div className="temp">
+                    <div className="icon">
+                        <img src="icons/regular/arrow-down.svg" alt="arrow down" width="20px" />
+                    </div>
+                    <div className="content">
+                        <div className="temp__min">
+                            <span className="temp__max__value">{temperatures?.min[index].toFixed(0)}</span>
+                            <span className="temp__max__unit">{temperatureUnits?.min}</span>
+                        </div>
+                        <div className="temp__apparent-min">
+                            <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
+                            <span className="temp__apparent-min__value">{temperatures?.apparent_min[index].toFixed(0)}</span>
+                            <span className="temp__apparent-min__unit">{temperatureUnits?.apparent_min}</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        })
+    };
 
     if (!forecast) {
         return (
@@ -68,65 +113,9 @@ const DailyPreview: FC = () => {
                 <p>{times.length}-Days Preview</p>
             </div>
 
-            <Carousel id="daily" listRef={listRef}>
+            <Carousel name="daily" listRef={listRef}>
                 <ul className="list" ref={listRef} >
-                    {
-                        times.map((time, index) => {
-                            //if (index === 0) return null;
-
-                            const date = new Date(time + "T00:00");
-
-                            return <li key={index} className="item">
-                                <h2 className="date">
-                                    {title(getWeekday(date.getDay()))}, {date.getDate()}
-                                </h2>
-
-                                <div className="temp">
-                                    <div className="icon">
-                                        <img src="icons/regular/arrow-up.svg" alt="arrow up" width="20px" />
-                                    </div>
-                                    <div className="content">
-                                        <div className="temp__max">
-                                            <span className="temp__max__value">{temperatures?.max[index].toFixed(0)}</span>
-                                            <span className="temp__max__unit">{temperatureUnits?.max}</span>
-                                        </div>
-                                        <div className="temp__apparent-max">
-                                            <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
-                                            <span className="temp__apparent-max__value">{temperatures?.apparent_max[index].toFixed(0)}</span>
-                                            <span className="temp__apparent-max__unit">{temperatureUnits?.apparent_max}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="feature">
-                                    <img
-                                        src={`icons/wi/${currentIcons(weatherCodes[index], 1)}.svg`}
-                                        alt="icon"
-                                        width="60px"
-                                    />
-
-                                    <p className="description">{weatherDescription(weatherCodes[index])}</p>
-                                </div>
-
-                                <div className="temp">
-                                    <div className="icon">
-                                        <img src="icons/regular/arrow-down.svg" alt="arrow down" width="20px" />
-                                    </div>
-                                    <div className="content">
-                                        <div className="temp__min">
-                                            <span className="temp__max__value">{temperatures?.min[index].toFixed(0)}</span>
-                                            <span className="temp__max__unit">{temperatureUnits?.min}</span>
-                                        </div>
-                                        <div className="temp__apparent-min">
-                                            <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
-                                            <span className="temp__apparent-min__value">{temperatures?.apparent_min[index].toFixed(0)}</span>
-                                            <span className="temp__apparent-min__unit">{temperatureUnits?.apparent_min}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        })
-                    }
+                    { renderDailyData() }
                 </ul>
             </Carousel>
         </div>

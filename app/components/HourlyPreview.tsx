@@ -75,7 +75,6 @@ const HourlyPreview: FC = () => {
     };
 
     useEffect(() => {
-        listRef.current?.scroll({ top: 0, left: 0, behavior: "instant" });
         setDisplayedDay("Today");
 
         listRef.current?.addEventListener("scroll", selectVisibleCells);
@@ -127,14 +126,6 @@ const HourlyPreview: FC = () => {
     if (!forecast) {
         return (
             <div className="hourly-preview loading">
-                Loading data...
-            </div>
-        );
-    }
-
-    if (!forecast) {
-        return (
-            <div className="hourly-preview loading">
                 Loading weather...
             </div>
         );
@@ -146,7 +137,7 @@ const HourlyPreview: FC = () => {
                 <p>Next {hours.length} hours ({displayedDay})</p>
             </div>
 
-            <Carousel id="hourly" listRef={listRef}>
+            <Carousel name="hourly" listRef={listRef}>
                 <ul className="list list-horizontal" ref={listRef}>
                     {renderHourlyData()}
                 </ul>

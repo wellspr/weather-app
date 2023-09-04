@@ -1,8 +1,19 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
-const Carousel: FC<{ id: string, listRef: React.RefObject<HTMLUListElement>, children: React.ReactNode }> = ({ id, listRef, children }) => {
+type CarouselProps = { 
+    name: string, 
+    listRef: React.RefObject<HTMLUListElement>, 
+    children: React.ReactNode 
+}
+
+const Carousel: FC<CarouselProps> = ({ name, listRef, children }) => {
+
+    useEffect(() => {
+        listRef.current?.scroll({ top: 0, left: 0, behavior: "instant" });
+    }, []);
+
     return (
-        <div className={`${id}-carousel`}>
+        <div className={`${name}-carousel`}>
             <button
                 className="button button-navigation button-navigation__left"
                 onClick={() => {

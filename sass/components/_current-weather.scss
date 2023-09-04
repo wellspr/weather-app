@@ -27,6 +27,11 @@ $loading-background-color: lightgray;
             min-width: 12rem;
         }
         min-height: 9rem;
+
+        .feature {
+            height: 3.5rem;
+            min-height: 3.5rem;
+        }
     }
 
     .sun {
@@ -90,7 +95,6 @@ $loading-background-color: lightgray;
                     font-size: 2.8rem;
                     margin-top: 1.4rem;
                 }
-
             }
             
             .icon {
