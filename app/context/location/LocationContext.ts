@@ -15,4 +15,4 @@ const defaultValue: LocationType = {
     selectLocation: async () => {},
 };
 
-export const LocationContext = createContext(defaultValue);
+export const LocationContext = createContext<LocationType>(defaultValue);
