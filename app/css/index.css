@@ -101,6 +101,13 @@ body {
   border-bottom-right-radius: 0.4rem;
 }
 
+.current-weather.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 47rem;
+}
 .current-weather .loading {
   background-color: lightgray;
   min-width: 25rem;
@@ -118,14 +125,11 @@ body {
   min-width: 20rem;
 }
 .current-weather .minor {
+  min-height: 10.5rem;
   min-height: 9rem;
 }
 .current-weather .minor.loading {
   min-width: 12rem;
-}
-.current-weather .minor .feature {
-  height: 3.5rem;
-  min-height: 3.5rem;
 }
 .current-weather .sun {
   min-height: 6rem;
@@ -134,7 +138,7 @@ body {
   min-width: 10rem;
 }
 .current-weather .update-info {
-  min-height: 1.5rem;
+  min-height: 1.8rem;
 }
 .current-weather .update-info.loading {
   min-width: 15rem;
@@ -208,14 +212,6 @@ body {
 }
 .current-weather .update-info {
   font-size: 1.2rem;
-}
-
-.current-weather.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  min-height: 45rem;
 }
 
 .geocoding-results, .saved-locations {

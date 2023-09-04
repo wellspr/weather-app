@@ -1,6 +1,14 @@
 $loading-background-color: lightgray;
 
 .current-weather {
+    &.loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        min-height: 47rem;
+    }
+
     .loading {
         background-color: $loading-background-color;
         min-width: 25rem;
@@ -8,7 +16,7 @@ $loading-background-color: lightgray;
 
     .header {
         min-height: 5.5rem;
-            
+
         &.loading {
             min-width: 30rem;
         }
@@ -23,30 +31,28 @@ $loading-background-color: lightgray;
     }
 
     .minor {
+        min-height: 10.5rem;
+
         &.loading {
             min-width: 12rem;
         }
         min-height: 9rem;
-
-        .feature {
-            height: 3.5rem;
-            min-height: 3.5rem;
-        }
     }
 
     .sun {
+        min-height: 6rem;
+
         &.loading {
             min-width: 10rem;
         }
-        min-height: 6rem;
     }
 
     .update-info {
-
+        min-height: 1.8rem;
+        
         &.loading {
             min-width: 15rem;
         }
-        min-height: 1.5rem;
     }
 }
 
@@ -54,14 +60,13 @@ $loading-background-color: lightgray;
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     background-color: aliceblue;
     border: 2px solid darkslateblue;
     border-radius: 1rem;
     padding: 1rem 0;
 
-
-    .header {               
+    .header {
         .datestring {
             font-size: 1.6rem;
         }
@@ -73,7 +78,7 @@ $loading-background-color: lightgray;
 
     .main {
         margin: 2.4rem 0;
-        
+
         .feature {
             display: flex;
             justify-content: center;
@@ -85,18 +90,18 @@ $loading-background-color: lightgray;
 
             .temp {
                 display: flex;
-        
+
                 &__value {
-                    font-family: 'Merriweather', serif;
+                    font-family: "Merriweather", serif;
                     font-size: 6.2rem;
                 }
-        
+
                 &__unit {
                     font-size: 2.8rem;
                     margin-top: 1.4rem;
                 }
             }
-            
+
             .icon {
                 min-width: 10rem;
                 min-height: 10rem;
@@ -126,8 +131,9 @@ $loading-background-color: lightgray;
         font-size: 1.4rem;
         margin-bottom: 1rem;
         min-height: 6rem;
-                
-        &__rise, &__set {
+
+        &__rise,
+        &__set {
             display: flex;
             align-items: center;
             min-height: 3rem;
@@ -137,14 +143,4 @@ $loading-background-color: lightgray;
     .update-info {
         font-size: 1.2rem;
     }
-}
-
-
-.current-weather.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-
-    min-height: 45rem;
 }
