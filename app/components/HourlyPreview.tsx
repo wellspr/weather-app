@@ -1,10 +1,12 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { useWeather } from "~/context";
 import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
 import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
 import Carousel from "./Carousel";
+
+const Plot = lazy(() => import("../plots/Plot"));
 
 const HourlyPreview: FC = () => {
 
@@ -123,6 +125,25 @@ const HourlyPreview: FC = () => {
         });
     };
 
+    const renderTemperaturePlot = () => {
+
+        const times = hours.map(hour => new Date(hour).getHours());
+        const temperatures = hourlyTemperature.map(temp => Number(temp.toFixed(0)));
+
+        if (window !== undefined) {
+            return (
+                <Suspense fallback={"Loading Graph..."}>
+                    <Plot
+                        dataLabel="Temperatures"
+                        title="Next 48 hours"
+                        x={times}
+                        y={temperatures}
+                    />
+                </Suspense>
+            );
+        };
+    };
+
     if (!forecast) {
         return (
             <div className="hourly-preview loading">
@@ -142,6 +163,10 @@ const HourlyPreview: FC = () => {
                     {renderHourlyData()}
                 </ul>
             </Carousel>
+
+            <div className="bar-plot">
+                {renderTemperaturePlot()}
+            </div>
         </div>
     );
 };

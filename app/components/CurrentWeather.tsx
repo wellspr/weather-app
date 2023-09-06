@@ -33,7 +33,10 @@ type WeatherDataType = {
     currentDate: Date,
 } | null;
 
-const WeatherCard = ({ weatherData }: { weatherData: WeatherDataType }) => {
+const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
+
+    const { fetchWeatherData } = useWeather();
+
     return (
         <div className={weatherData ? `current-weather` : `current-weather loading`}>
             <div className={weatherData ? "header" : "header loading"}>
@@ -129,12 +132,29 @@ const WeatherCard = ({ weatherData }: { weatherData: WeatherDataType }) => {
                 }
             </div>
 
-            <div className={weatherData ? "update-info" : "update-info loading"}>
-                {
-                    weatherData &&
+            {
+                weatherData &&
+                <div className={weatherData ? "update-info" : "update-info loading"}>
                     <span>Last updated: {weatherData.currentDate.toLocaleString()}</span>
-                }
-            </div>
+                    <button
+                        className="button"
+                        onClick={() => {
+                            if (weatherData && weatherData.selectedLocation) {
+                                const latitude = weatherData.selectedLocation.latitude;
+                                const longitude = weatherData.selectedLocation.longitude;
+                                const name = weatherData.selectedLocation.name;
+
+                                fetchWeatherData({
+                                    latitude: latitude,
+                                    longitude: longitude,
+                                    name: name
+                                });
+                            }
+                        }}>
+                        <img src="icons/regular/refresh.svg" alt="refresh button" width={18} />
+                    </button>
+                </div>
+            }
         </div>
     );
 };

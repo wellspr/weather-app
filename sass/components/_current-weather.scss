@@ -147,5 +147,8 @@ $loading-background-color: lightgray;
 
     .update-info {
         font-size: 1.2rem;
+
+        display: flex;
+        gap: 1.4rem;
     }
 }
