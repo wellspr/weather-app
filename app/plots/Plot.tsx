@@ -16,6 +16,7 @@ import {
 import Zoom from "chartjs-plugin-zoom";
 
 import { Bar, Chart } from "react-chartjs-2";
+import { ChartJSOrUndefined } from "react-chartjs-2/dist/types";
 
 ChartJS.register(
     CategoryScale,
@@ -39,7 +40,7 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
     const [labels, setLabels] = useState<number[] | undefined>(undefined);
     const [data, setData] = useState<number[] | undefined>(undefined);
 
-    const plotRef = useRef(null);
+    const plotRef = useRef<ChartJSOrUndefined<"bar", number[] | undefined, number>>(null);
 
     useEffect(() => {
         setLabels(x);
