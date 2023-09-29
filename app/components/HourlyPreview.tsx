@@ -5,6 +5,7 @@ import { currentIcons } from "~/data/weatherIcons";
 import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
 import Carousel from "./Carousel";
+import WeatherIcon from "~/icons/WeatherIcon";
 
 const Plot = lazy(() => import("../plots/Plot"));
 
@@ -111,12 +112,12 @@ const HourlyPreview: FC = () => {
                     <span className="temperature__unit">{hourlyTemperatureUnits}</span>
                 </div>
 
-                <img src={`icons/wi/${currentIcon}.svg`} alt="icon" width="50px" />
+                <WeatherIcon icon={`${currentIcon}`} size={50} />
 
                 <div className="description">{weatherDescription(weatherCodes[index])}</div>
 
                 <div className="pop">
-                    <img src="icons/wi/wi-rain.svg" alt="rain drop icon" width="16px" />
+                    <WeatherIcon icon="wi-rain" size={16} />
                     <span>{precipitationProbability[index]}%</span>
                 </div>
 

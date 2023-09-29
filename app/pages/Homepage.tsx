@@ -7,7 +7,6 @@ import CurrentWeather from "~/components/CurrentWeather";
 import HourlyPreview from "~/components/HourlyPreview";
 import DailyPreview from "~/components/DailyPreview";
 import SearchWeather from "~/components/SearchWeather";
-import Plot from "~/plots/Plot";
 
 const Homepage: FC = () => {
     return (

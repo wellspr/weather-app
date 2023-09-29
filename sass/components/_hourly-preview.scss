@@ -167,8 +167,9 @@
             }
 
             .temperature {
-                img {
-                    color: white;
+                .icon {
+                    color: red;
+                    width: 2rem;
                 }
             }
         }

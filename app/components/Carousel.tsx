@@ -1,4 +1,5 @@
 import { FC, useEffect } from "react";
+import Regular from "~/icons/RegularIcons";
 
 type CarouselProps = { 
     name: string, 
@@ -29,7 +30,7 @@ const Carousel: FC<CarouselProps> = ({ name, listRef, children }) => {
                     }
                 }}
             >
-                <img src="icons/regular/caret-left.svg" alt="left arrow" />
+                <Regular icon="caret-left"/>
             </button>
             {children}
             <button
@@ -47,7 +48,7 @@ const Carousel: FC<CarouselProps> = ({ name, listRef, children }) => {
                     }
                 }}
             >
-                <img src="icons/regular/caret-right.svg" alt="right arrow" />
+                <Regular icon="caret-right" />
             </button>
         </div>
     );

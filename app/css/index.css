@@ -29,6 +29,7 @@ body {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  color: inherit;
 }
 
 .search-weather {
@@ -66,7 +67,7 @@ body {
   align-items: center;
   gap: 1rem;
 }
-.button__search-weather img, .button__search-weather .label {
+.button__search-weather .icon, .button__search-weather .label {
   height: 2rem;
   min-height: 2rem;
 }
@@ -117,6 +118,14 @@ body {
 }
 .current-weather .header.loading {
   min-width: 30rem;
+}
+.current-weather .header svg.wi {
+  width: 5rem;
+  height: 5rem;
+}
+.current-weather .header img {
+  width: 5rem;
+  height: 5rem;
 }
 .current-weather .main {
   min-height: 12.7rem;
@@ -217,7 +226,13 @@ body {
 .current-weather .update-info {
   font-size: 1.2rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1.4rem;
+}
+.current-weather .update-info .button svg.icon {
+  width: 2rem;
+  height: 2rem;
 }
 
 .geocoding-results, .saved-locations {
@@ -377,8 +392,9 @@ body {
   font-size: 1.4rem;
   font-weight: bold;
 }
-.hourly-preview .list .item .temperature img {
-  color: white;
+.hourly-preview .list .item .temperature .icon {
+  color: red;
+  width: 2rem;
 }
 .hourly-preview .list .day-0 {
   border-color: green;
@@ -415,6 +431,12 @@ body {
   align-items: center;
 }
 
+.daily-preview .daily-carousel .list .item .temp.temp-max {
+  color: rgb(220, 10, 10);
+}
+.daily-preview .daily-carousel .list .item .temp.temp-min {
+  color: rgb(10, 10, 200);
+}
 .bar-plot {
   height: 25rem;
   margin: 0 2rem;

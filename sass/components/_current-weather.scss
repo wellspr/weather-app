@@ -20,6 +20,16 @@ $loading-background-color: lightgray;
         &.loading {
             min-width: 30rem;
         }
+
+        svg.wi {
+            width: 5rem;
+            height: 5rem;
+        }
+
+        img {
+            width: 5rem;
+            height: 5rem;
+        }
     }
 
     .main {
@@ -54,7 +64,7 @@ $loading-background-color: lightgray;
 
     .update-info {
         min-height: 1.8rem;
-        
+
         &.loading {
             min-width: 15rem;
         }
@@ -149,6 +159,15 @@ $loading-background-color: lightgray;
         font-size: 1.2rem;
 
         display: flex;
+        justify-content: center;
+        align-items: center;
         gap: 1.4rem;
+
+        .button {
+            svg.icon {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
     }
 }

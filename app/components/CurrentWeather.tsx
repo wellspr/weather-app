@@ -5,6 +5,9 @@ import { currentIcons } from "~/data/weatherIcons";
 import { SelectedLocation } from "~/types/types";
 import { getMonth } from "~/utils/months";
 import { title } from "~/utils/transforms";
+import Regular from "~/icons/RegularIcons";
+import WeatherIcon from "~/icons/WeatherIcon";
+import { Icon } from "~/icons/WeatherIcon/types";
 
 type CurrentWeather = {
     temperature: number;
@@ -20,7 +23,7 @@ type WeatherDataType = {
     selectedLocation: SelectedLocation,
     currentWeather: CurrentWeather,
     temperatureUnit: string,
-    currentIcon: string,
+    currentIcon: Icon,
     weatherCode: number,
     apparentTemperature: number,
     apparentTemperatureUnit: string,
@@ -73,13 +76,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
 
                     {
                         weatherData &&
-                        <img
-                            className="icon"
-                            src={`icons/wi/${weatherData.currentIcon}.svg`}
-                            alt="weather icon"
-                            width="100px"
-                            onMouseOver={() => console.log(weatherData.currentIcon)}
-                        />
+                        <WeatherIcon icon={`${weatherData.currentIcon}`} size={100} />
                     }
                 </div>
                 {
@@ -92,7 +89,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
                 {
                     weatherData &&
                     <div className="feature">
-                        <img src="icons/wi/wi-thermometer.svg" alt="feels like" width="30px" style={{ minWidth: "30px" }} />
+                        <WeatherIcon icon="wi-thermometer" size={30} />
                         Feels Like: {weatherData.apparentTemperature.toFixed(0)}{weatherData.apparentTemperatureUnit}
                     </div>
                 }
@@ -100,7 +97,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
                 {
                     weatherData &&
                     <div className="feature">
-                        <img src="icons/wi/wi-raindrops.svg" alt="precipitation" width="35px" style={{ minWidth: "35px" }} />
+                        <WeatherIcon icon="wi-raindrops" size={35} />
                         PoP: {weatherData.precipitationProbability}{weatherData.precipitationProbabilityUnit}
                     </div>
                 }
@@ -108,7 +105,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
                 {
                     weatherData &&
                     <div className="feature windspeed">
-                        <img src="icons/wi/wi-strong-wind.svg" alt="wind speed" width="25px" style={{ minWidth: "25px" }} />
+                        <WeatherIcon icon="wi-strong-wind" size={25} />
                         Windspeed: {weatherData.windSpeed}{weatherData.windSpeedUnit}
                     </div>
                 }
@@ -118,7 +115,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
                 {
                     weatherData &&
                     <div className="sun__rise">
-                        <img src="icons/wi/wi-sunrise.svg" alt="sunrise" width="30px" style={{ minWidth: "30px" }} />
+                        <WeatherIcon icon="wi-sunrise" size={30} />
                         <span>Sunrise {weatherData.sunRiseTime.toLocaleTimeString()} hr</span>
                     </div>
                 }
@@ -126,7 +123,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
                 {
                     weatherData &&
                     <div className="sun__set">
-                        <img src="icons/wi/wi-sunset.svg" alt="sunset" width="30px" style={{ minWidth: "30px" }} />
+                        <WeatherIcon icon="wi-sunset" size={30} />
                         <span>Sunset {weatherData.sunSetTime.toLocaleTimeString()} hr</span>
                     </div>
                 }
@@ -151,7 +148,7 @@ const WeatherCard: FC<{ weatherData: WeatherDataType }> = ({ weatherData }) => {
                                 });
                             }
                         }}>
-                        <img src="icons/regular/refresh.svg" alt="refresh button" width={18} />
+                        <Regular icon="refresh" />
                     </button>
                 </div>
             }

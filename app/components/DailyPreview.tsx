@@ -5,6 +5,8 @@ import { currentIcons } from "~/data/weatherIcons";
 import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
 import Carousel from "./Carousel";
+import Regular from "~/icons/RegularIcons";
+import WeatherIcon from "~/icons/WeatherIcon";
 
 const DailyPreview: FC = () => {
 
@@ -52,17 +54,15 @@ const DailyPreview: FC = () => {
                     {title(getWeekday(date.getDay()))}, {date.getDate()}
                 </h2>
 
-                <div className="temp">
-                    <div className="icon">
-                        <img src="icons/regular/arrow-up.svg" alt="arrow up" width="20px" />
-                    </div>
+                <div className="temp temp-max">
+                    <Regular icon="arrow-up" />
                     <div className="content">
                         <div className="temp__max">
                             <span className="temp__max__value">{temperatures?.max[index].toFixed(0)}</span>
                             <span className="temp__max__unit">{temperatureUnits?.max}</span>
                         </div>
                         <div className="temp__apparent-max">
-                            <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
+                            <Regular icon="tilde" />
                             <span className="temp__apparent-max__value">{temperatures?.apparent_max[index].toFixed(0)}</span>
                             <span className="temp__apparent-max__unit">{temperatureUnits?.apparent_max}</span>
                         </div>
@@ -70,33 +70,27 @@ const DailyPreview: FC = () => {
                 </div>
 
                 <div className="feature">
-                    <img
-                        src={`icons/wi/${currentIcons(weatherCodes[index], 1)}.svg`}
-                        alt="icon"
-                        width="60px"
-                    />
+                    <WeatherIcon icon={`${currentIcons(weatherCodes[index], 1)}`} size={60} />
 
                     <p className="description">{weatherDescription(weatherCodes[index])}</p>
                 </div>
 
-                <div className="temp">
-                    <div className="icon">
-                        <img src="icons/regular/arrow-down.svg" alt="arrow down" width="20px" />
-                    </div>
+                <div className="temp temp-min">
+                    <Regular icon="arrow-down" />
                     <div className="content">
                         <div className="temp__min">
                             <span className="temp__max__value">{temperatures?.min[index].toFixed(0)}</span>
                             <span className="temp__max__unit">{temperatureUnits?.min}</span>
                         </div>
                         <div className="temp__apparent-min">
-                            <img src="icons/regular/tilde.svg" alt="tilde" width="20px" />
+                            <Regular icon="tilde" />
                             <span className="temp__apparent-min__value">{temperatures?.apparent_min[index].toFixed(0)}</span>
                             <span className="temp__apparent-min__unit">{temperatureUnits?.apparent_min}</span>
                         </div>
                     </div>
                 </div>
             </li>
-        })
+        });
     };
 
     if (!forecast) {
@@ -115,7 +109,7 @@ const DailyPreview: FC = () => {
 
             <Carousel name="daily" listRef={listRef}>
                 <ul className="list" ref={listRef} >
-                    { renderDailyData() }
+                    {renderDailyData()}
                 </ul>
             </Carousel>
         </div>

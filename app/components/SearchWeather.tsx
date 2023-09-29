@@ -13,6 +13,7 @@ import { Location } from "~/types/types";
 
 // Context
 import { useLocation, useWeather } from "~/context";
+import Regular from "~/icons/RegularIcons";
 
 const searchBarContext: { showSearchBar: boolean, setShowSearchBar: React.Dispatch<React.SetStateAction<boolean>> } = {
     showSearchBar: false,
@@ -91,7 +92,7 @@ const SearchWeather = () => {
                         <button
                             className="button button-close"
                             onClick={() => setShowSearchBar(false)}>
-                            <img src="icons/regular/x.svg" alt="close" />
+                            <Regular icon="x" />
                         </button>
                         <SearchBar />
                         {
@@ -110,7 +111,7 @@ const SearchWeather = () => {
                     className="button button__search-weather"
                     onClick={() => setShowSearchBar(true)}
                 >
-                    <img src="icons/regular/search.svg" alt="search" />
+                    <Regular icon="search" />
                     <span className="label">Search Location</span>
                 </button>
             </div>
