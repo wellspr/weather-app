@@ -29,16 +29,18 @@ ChartJS.register(
 );
 
 interface PlotProps {
-    y: number[] | undefined;
-    x: number[] | undefined;
+    y: number[];
+    x: number[];
     dataLabel: string;
     title: string;
 }
 
 const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
 
-    const [labels, setLabels] = useState<number[] | undefined>(undefined);
-    const [data, setData] = useState<number[] | undefined>(undefined);
+    const [labels, setLabels] = useState<number[]>([]);
+    const [data, setData] = useState<number[]>([]);
+    const [min, setMin] = useState<number>(0);
+    const [max, setMax] = useState<number>(0);
 
     const plotRef = useRef<ChartJSOrUndefined<"bar", number[] | undefined, number>>(null);
 
@@ -46,16 +48,11 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
         setLabels(x);
         setData(y);
 
-        console.log("updated graph data...");
-    }, [x, y]);
+        setMin(x[0]);
+        setMax(x[10]);
 
-    useEffect(() => {
-        const chartRef = plotRef.current;
-        console.log(chartRef);
-        if (chartRef) {
-            chartRef.zoom({x: 13});
-        }
-    }, []);
+        console.log("updated graph data...", x[0], y[0]);
+    }, [x, y]);
 
     return (
         <Bar
@@ -65,13 +62,15 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
                 datasets: [{
                     label: dataLabel,
                     data: data,
-                    borderWidth: 2                    
+                    borderWidth: 1,
+                    type: "bar"
                 }],
             }}
             height={250}
             options={{
                 responsive: true,
                 maintainAspectRatio: false,
+                skipNull: true,
                 backgroundColor: "slateblue",
                 plugins: {
                     zoom: {
@@ -94,12 +93,31 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
                     },
                     legend: {
                         position: 'top' as const,
+                        display: false,
+
                     },
                     title: {
-                        display: true,
+                        display: false,
                         text: title,
                     },
                 },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: title
+                        },
+                        suggestedMin: x[0],
+                        max: x[0]+10
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: dataLabel
+                        },
+                        
+                    },
+                }
             }}
         />
     );

@@ -19,10 +19,16 @@ const HourlyPreview: FC = () => {
     const [hours, setHours] = useState<string[]>([]);
     const [hourlyTemperatureUnits, setHourlyTemperatureUnits] = useState<string>("");
     const [precipitationProbability, setPrecipitationProbability] = useState<number[]>([]);
+    const [windSpeed, setWindSpeed] = useState<number[]>([]);
+    const [windSpeedUnits, setWindSpeedUnits] = useState<string>("");
     const [weatherCodes, setWeatherCodes] = useState<number[]>([]);
     const [isDay, setIsDay] = useState<number[]>([]);
 
     const [displayedDay, setDisplayedDay] = useState<string>("");
+
+    const [showTemperaturePlot, setShowTemperaturePlot] = useState<boolean>(true);
+    const [showWindSpeedPlot, setShowWindSpeedPlot] = useState<boolean>(false);
+    const [showPOPPlot, setShowPOPPlot] = useState<boolean>(false);
 
     useEffect(() => {
         const hourNow: number = new Date().getHours();
@@ -39,6 +45,8 @@ const HourlyPreview: FC = () => {
             setHourlyTemperatureUnits(units.temperature_2m);
             setWeatherCodes(hourly.weathercode.slice(start, end));
             setPrecipitationProbability(hourly.precipitation_probability.slice(start, end));
+            setWindSpeed(hourly.windspeed_10m);
+            setWindSpeedUnits(units.windspeed_10m);
             setIsDay(hourly.is_day.slice(start, end));
         }
     }, [forecast]);
@@ -116,9 +124,14 @@ const HourlyPreview: FC = () => {
 
                 <div className="description">{weatherDescription(weatherCodes[index])}</div>
 
-                <div className="pop">
-                    <WeatherIcon icon="wi-rain" size={16} />
+                <div className="parameter pop">
+                    <WeatherIcon icon="wi-rain" size={22} />
                     <span>{precipitationProbability[index]}%</span>
+                </div>
+
+                <div className="parameter windspeed">
+                    <WeatherIcon icon="wi-strong-wind" size={22} />
+                    <span>{windSpeed[index]}{windSpeedUnits}</span>
                 </div>
 
                 <div>{isDay[index] ? "Day" : "Night"}</div>
@@ -130,16 +143,41 @@ const HourlyPreview: FC = () => {
 
         const times = hours.map(hour => new Date(hour).getHours());
         const temperatures = hourlyTemperature.map(temp => Number(temp.toFixed(0)));
+        const temperatureUnit = hourlyTemperatureUnits;
+        const windSpeeds = windSpeed.map(ws => ws);
+        const windSpeedUnit = windSpeedUnits;
+        const pops = precipitationProbability.map(pop => pop);
 
         if (window !== undefined) {
             return (
                 <Suspense fallback={"Loading Graph..."}>
-                    <Plot
-                        dataLabel="Temperatures"
-                        title="Next 48 hours"
-                        x={times}
-                        y={temperatures}
-                    />
+                    {
+                        showTemperaturePlot &&
+                        <Plot
+                            dataLabel={`Temperatures (${temperatureUnit})`}
+                            title="Next 48 hours"
+                            x={times}
+                            y={temperatures}
+                        />
+                    }
+                    {
+                        showWindSpeedPlot &&
+                        <Plot
+                            dataLabel={`Wind Speed (${windSpeedUnit})`}
+                            title="Next 48 hours"
+                            x={times}
+                            y={windSpeeds}
+                        />
+                    }
+                    {
+                        showPOPPlot &&
+                        <Plot
+                            dataLabel={`P.O.P. (%)`}
+                            title="Next 48 hours"
+                            x={times}
+                            y={pops}
+                        />
+                    }
                 </Suspense>
             );
         };
@@ -166,6 +204,37 @@ const HourlyPreview: FC = () => {
             </Carousel>
 
             <div className="bar-plot">
+                <button
+                    className={showTemperaturePlot ? "button button-plot button-plot--active" : "button button-plot"}
+                    disabled={showTemperaturePlot}
+                    onClick={() => {
+                        setShowTemperaturePlot(true);
+                        setShowWindSpeedPlot(false);
+                        setShowPOPPlot(false);
+                    }}>
+                    Temperature
+                </button>
+                <button
+                    className={showWindSpeedPlot ? "button button-plot button-plot--active" : "button button-plot"}
+                    disabled={showWindSpeedPlot}
+                    onClick={() => {
+                        setShowTemperaturePlot(false);
+                        setShowWindSpeedPlot(true);
+                        setShowPOPPlot(false);
+                    }}>
+                    Wind Speed
+                </button>
+                <button
+                    className={showPOPPlot ? "button button-plot button-plot--active" : "button button-plot"}
+                    disabled={showPOPPlot}
+                    onClick={() => {
+                        setShowTemperaturePlot(false);
+                        setShowWindSpeedPlot(false);
+                        setShowPOPPlot(true);
+                    }}>
+                    P.O.P.
+                </button>
+
                 {renderTemperaturePlot()}
             </div>
         </div>

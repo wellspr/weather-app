@@ -31,6 +31,9 @@ body {
   cursor: pointer;
   color: inherit;
 }
+.button:disabled {
+  cursor: auto;
+}
 
 .search-weather {
   padding: 1rem 0;
@@ -323,11 +326,13 @@ body {
   width: 100%;
   text-align: center;
 }
-.hourly-preview .list .item .pop,
-.daily-preview .list .item .pop {
+.hourly-preview .list .item .parameter,
+.daily-preview .list .item .parameter {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 1.2rem;
+  gap: 0.4rem;
 }
 
 .daily-preview {
@@ -440,6 +445,16 @@ body {
 .bar-plot {
   height: 25rem;
   margin: 0 2rem;
+}
+
+.button-plot {
+  padding: 0.5rem 1rem;
+  border: 1px solid;
+  border-radius: 0.4rem;
+  margin-left: 0.4rem;
+}
+.button-plot--active {
+  background-color: azure;
 }
 
 .homepage {

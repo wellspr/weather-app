@@ -3,4 +3,8 @@
     border: none;
     cursor: pointer;
     color: inherit;
+
+    &:disabled {
+        cursor: auto;
+    }
 }
