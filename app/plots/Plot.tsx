@@ -29,16 +29,19 @@ ChartJS.register(
 );
 
 interface PlotProps {
-    y: number[];
     x: number[];
-    dataLabel: string;
-    title: string;
+    y: (number | null)[] | (number | null)[][];
+    xLabel?: string;
+    yLabel?: string;
+    dataLabel?: string;
+    title?: string;
+    color?: string | string[];
 }
 
-const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
+const Plot: FC<PlotProps> = ({ x, y, xLabel, yLabel, dataLabel, title, color }) => {
 
     const [labels, setLabels] = useState<number[]>([]);
-    const [data, setData] = useState<number[]>([]);
+    const [dataSet, setDataSet] = useState<(number | null)[] | (number | null)[][]>([]);
     const [min, setMin] = useState<number>(0);
     const [max, setMax] = useState<number>(0);
 
@@ -46,7 +49,7 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
 
     useEffect(() => {
         setLabels(x);
-        setData(y);
+        setDataSet(y);
 
         setMin(x[0]);
         setMax(x[10]);
@@ -59,19 +62,21 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
             ref={plotRef}
             data={{
                 labels: labels,
-                datasets: [{
-                    label: dataLabel,
-                    data: data,
-                    borderWidth: 1,
-                    type: "bar"
-                }],
+                datasets: dataSet.map((data, i) => { 
+                    return {
+                        label: dataLabel,
+                        data: data,
+                        borderWidth: 1,
+                        type: "bar",
+                        backgroundColor: color && color[i]
+                    }
+                }),
             }}
             height={250}
             options={{
                 responsive: true,
                 maintainAspectRatio: false,
                 skipNull: true,
-                backgroundColor: "slateblue",
                 plugins: {
                     zoom: {
                         zoom: {
@@ -92,12 +97,12 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
                         }
                     },
                     legend: {
+                        display: dataLabel ? true : false,
                         position: 'top' as const,
-                        display: false,
 
                     },
                     title: {
-                        display: false,
+                        display: title ? true : false,
                         text: title,
                     },
                 },
@@ -105,19 +110,20 @@ const Plot: FC<PlotProps> = ({ x, y, dataLabel, title }) => {
                     x: {
                         title: {
                             display: true,
-                            text: title
+                            text: xLabel
                         },
                         suggestedMin: x[0],
-                        max: x[0]+10
+                        max: x[0] + 10,
+
                     },
                     y: {
                         title: {
                             display: true,
-                            text: dataLabel
+                            text: yLabel
                         },
-                        
+
                     },
-                }
+                },
             }}
         />
     );

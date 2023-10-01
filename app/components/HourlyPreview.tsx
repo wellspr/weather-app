@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState, lazy, Suspense } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useWeather } from "~/context";
 import { weatherDescription } from "~/data/weatherCodes";
 import { currentIcons } from "~/data/weatherIcons";
@@ -6,8 +6,7 @@ import { title } from "~/utils/transforms";
 import { getWeekday } from "~/utils/weekdays";
 import Carousel from "./Carousel";
 import WeatherIcon from "~/icons/WeatherIcon";
-
-const Plot = lazy(() => import("../plots/Plot"));
+import DataPlot, { Plots } from "./DataPlot";
 
 const HourlyPreview: FC = () => {
 
@@ -26,9 +25,7 @@ const HourlyPreview: FC = () => {
 
     const [displayedDay, setDisplayedDay] = useState<string>("");
 
-    const [showTemperaturePlot, setShowTemperaturePlot] = useState<boolean>(true);
-    const [showWindSpeedPlot, setShowWindSpeedPlot] = useState<boolean>(false);
-    const [showPOPPlot, setShowPOPPlot] = useState<boolean>(false);
+    const [plots, setPlots] = useState<Plots>([]);
 
     useEffect(() => {
         const hourNow: number = new Date().getHours();
@@ -36,6 +33,144 @@ const HourlyPreview: FC = () => {
         if (forecast) {
             const hourly = forecast.hourly;
             const units = forecast.hourly_units;
+
+            let daysArray: number[] = [];
+
+            hourly.time.forEach(t => {
+                const now = new Date().getTime();
+                const date = new Date(t).getTime();
+                const endDate = new Date(now + 48 * 3600 * 1000).getTime();
+                const day = new Date(t).getDate();
+
+                if (date > now && date < endDate) {
+                    daysArray.push(day);
+                }
+            });
+
+            let days: number[] = [];
+            new Set(daysArray).forEach(d => days.push(d));
+
+            const data: {
+                times: string[];
+                temperatures: (number | null)[];
+                windspeed: number[];
+                pop: number[];
+                is_day: number[];
+            } = {
+                times: [],
+                temperatures: [],
+                windspeed: [],
+                pop: [],
+                is_day: [],
+            };
+
+            hourly.time.forEach((t, i) => {
+                const now = new Date().getTime();
+                const date = new Date(t).getTime();
+                const endDate = new Date(now + 48 * 3600 * 1000).getTime();
+
+                if (date > now && date < endDate) {
+                    data.times.push(t);
+                    data.temperatures.push(hourly.temperature_2m[i]);
+                    data.windspeed.push(hourly.windspeed_10m[i]);
+                    data.pop.push(hourly.precipitation_probability[i]);
+                    data.is_day.push(hourly.is_day[i]);
+                }
+            });
+
+            console.log(data);
+
+            let weatherData: {
+                times: string[];
+                temperatures: (number| null)[];
+                windspeed: (number | null)[];
+                pop: (number | null)[];
+                is_day: (number | null)[];
+            }[] = [];
+
+            const slices = days.map(day => daysArray.indexOf(day));
+            slices.push(daysArray.length);
+
+            console.log(slices);
+
+            days.forEach((day, i) => {
+                console.log(slices[i], slices[i + 1]);
+                weatherData[i] = {
+                    times: data.times,
+                    temperatures: data.temperatures.map((t, index) => {
+                        if (index>=slices[i] && index<slices[i+1]) {
+                            return t;
+                        }
+                        return null;
+                    }),
+                    windspeed: data.windspeed.map((ws, index) => {
+                        if (index>=slices[i] && index<slices[i+1]) {
+                            return ws;
+                        }
+                        return null;
+                    }),
+                    pop: data.pop.map((p, index) => {
+                        if (index>=slices[i] && index<slices[i+1]) {
+                            return p;
+                        }
+                        return null;
+                    }),
+                    is_day: data.is_day.map((d, index) => {
+                        if (index>=slices[i] && index<slices[i+1]) {
+                            return d;
+                        }
+                        return null;
+                    }),
+                }
+            });
+
+            console.log(weatherData);
+
+            setPlots([
+                {
+                    plotID: "temperaturePlot",
+                    xLabel: "Next 48 hours",
+                    yLabel: "Temperature",
+                    plotName: "Temperature",
+                    unit: "ºC",
+                    x: data.times.map(h => new Date(h).getHours()),
+                    y: [
+                        weatherData[0].temperatures,
+                        weatherData[1].temperatures,
+                        weatherData[2].temperatures,
+                    ],
+                    color: ["red", "green", "blue"],
+                },
+                {
+                    plotID: "windspeedPLot",
+                    xLabel: "Next 48 hours",
+                    yLabel: "Wind",
+                    plotName: "Wind",
+                    unit: "km/h",
+                    x: data.times.map(h => new Date(h).getHours()),
+                    y: [
+                        weatherData[0].windspeed,
+                        weatherData[1].windspeed,
+                        weatherData[2].windspeed,
+                    ],
+                    color: ["red", "green", "blue"],
+                },
+                {
+                    plotID: "popPlot",
+                    xLabel: "Next 48 hours",
+                    yLabel: "Rain",
+                    plotName: "Rain",
+                    unit: "%",
+                    x: data.times.map(h => new Date(h).getHours()),
+                    y: [
+                        weatherData[0].pop,
+                        weatherData[1].pop,
+                        weatherData[2].pop,
+                    ],
+                    color: ["red", "green", "blue"],
+                }
+            ]);
+
 
             const start = hourNow + 1;
             const end = hourNow + 49;
@@ -139,50 +274,6 @@ const HourlyPreview: FC = () => {
         });
     };
 
-    const renderTemperaturePlot = () => {
-
-        const times = hours.map(hour => new Date(hour).getHours());
-        const temperatures = hourlyTemperature.map(temp => Number(temp.toFixed(0)));
-        const temperatureUnit = hourlyTemperatureUnits;
-        const windSpeeds = windSpeed.map(ws => ws);
-        const windSpeedUnit = windSpeedUnits;
-        const pops = precipitationProbability.map(pop => pop);
-
-        if (window !== undefined) {
-            return (
-                <Suspense fallback={"Loading Graph..."}>
-                    {
-                        showTemperaturePlot &&
-                        <Plot
-                            dataLabel={`Temperatures (${temperatureUnit})`}
-                            title="Next 48 hours"
-                            x={times}
-                            y={temperatures}
-                        />
-                    }
-                    {
-                        showWindSpeedPlot &&
-                        <Plot
-                            dataLabel={`Wind Speed (${windSpeedUnit})`}
-                            title="Next 48 hours"
-                            x={times}
-                            y={windSpeeds}
-                        />
-                    }
-                    {
-                        showPOPPlot &&
-                        <Plot
-                            dataLabel={`P.O.P. (%)`}
-                            title="Next 48 hours"
-                            x={times}
-                            y={pops}
-                        />
-                    }
-                </Suspense>
-            );
-        };
-    };
-
     if (!forecast) {
         return (
             <div className="hourly-preview loading">
@@ -190,6 +281,8 @@ const HourlyPreview: FC = () => {
             </div>
         );
     }
+
+    if (plots.length === 0) return;
 
     return (
         <div className="hourly-preview">
@@ -203,40 +296,9 @@ const HourlyPreview: FC = () => {
                 </ul>
             </Carousel>
 
-            <div className="bar-plot">
-                <button
-                    className={showTemperaturePlot ? "button button-plot button-plot--active" : "button button-plot"}
-                    disabled={showTemperaturePlot}
-                    onClick={() => {
-                        setShowTemperaturePlot(true);
-                        setShowWindSpeedPlot(false);
-                        setShowPOPPlot(false);
-                    }}>
-                    Temperature
-                </button>
-                <button
-                    className={showWindSpeedPlot ? "button button-plot button-plot--active" : "button button-plot"}
-                    disabled={showWindSpeedPlot}
-                    onClick={() => {
-                        setShowTemperaturePlot(false);
-                        setShowWindSpeedPlot(true);
-                        setShowPOPPlot(false);
-                    }}>
-                    Wind Speed
-                </button>
-                <button
-                    className={showPOPPlot ? "button button-plot button-plot--active" : "button button-plot"}
-                    disabled={showPOPPlot}
-                    onClick={() => {
-                        setShowTemperaturePlot(false);
-                        setShowWindSpeedPlot(false);
-                        setShowPOPPlot(true);
-                    }}>
-                    P.O.P.
-                </button>
-
-                {renderTemperaturePlot()}
-            </div>
+            <DataPlot
+                plots={plots}
+            />
         </div>
     );
 };
