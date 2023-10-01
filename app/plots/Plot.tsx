@@ -35,10 +35,11 @@ interface PlotProps {
     yLabel?: string;
     dataLabel?: string;
     title?: string;
-    color?: string | string[];
+    backgroundColor?: string | string[];
+    borderColor?: string | string[];
 }
 
-const Plot: FC<PlotProps> = ({ x, y, xLabel, yLabel, dataLabel, title, color }) => {
+const Plot: FC<PlotProps> = ({ x, y, xLabel, yLabel, dataLabel, title, backgroundColor, borderColor }) => {
 
     const [labels, setLabels] = useState<number[]>([]);
     const [dataSet, setDataSet] = useState<(number | null)[] | (number | null)[][]>([]);
@@ -68,7 +69,8 @@ const Plot: FC<PlotProps> = ({ x, y, xLabel, yLabel, dataLabel, title, color }) 
                         data: data,
                         borderWidth: 1,
                         type: "bar",
-                        backgroundColor: color && color[i]
+                        backgroundColor: backgroundColor && backgroundColor[i],
+                        borderColor: borderColor && borderColor[i],
                     }
                 }),
             }}

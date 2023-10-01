@@ -12,7 +12,8 @@ type Plot = {
     y: (number | null)[] | (number | null)[][];
     xLabel?: string;
     yLabel?: string;
-    color: string | string[];
+    backgroundColor: string | string[];
+    borderColor: string | string[];
 }
 
 interface DataPlotProps {
@@ -42,7 +43,8 @@ const DataPlot: FC<DataPlotProps> = ({ plots }) => {
                                         y={plot.y}
                                         dataLabel={plot.label}
                                         title={plot.title}
-                                        color={plot.color}
+                                        backgroundColor={plot.backgroundColor}
+                                        borderColor={plot.borderColor}
                                     />
                                 )
                             }

@@ -139,7 +139,8 @@ const HourlyPreview: FC = () => {
                         weatherData[1].temperatures,
                         weatherData[2].temperatures,
                     ],
-                    color: ["red", "green", "blue"],
+                    backgroundColor: ["rgba(0, 255, 0, .2)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
+                    borderColor: ["rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
                 },
                 {
                     plotID: "windspeedPLot",
@@ -153,7 +154,8 @@ const HourlyPreview: FC = () => {
                         weatherData[1].windspeed,
                         weatherData[2].windspeed,
                     ],
-                    color: ["red", "green", "blue"],
+                    backgroundColor: ["rgba(0, 255, 0, .2)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
+                    borderColor: ["rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
                 },
                 {
                     plotID: "popPlot",
@@ -167,7 +169,8 @@ const HourlyPreview: FC = () => {
                         weatherData[1].pop,
                         weatherData[2].pop,
                     ],
-                    color: ["red", "green", "blue"],
+                    backgroundColor: ["rgba(0, 255, 0, .2)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
+                    borderColor: ["rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
                 }
             ]);
 
