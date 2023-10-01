@@ -446,10 +446,14 @@ body {
   height: 25rem;
   margin: 0 2rem;
 }
+.bar-plot__buttons {
+  margin: 0.1rem 0 0.4rem 1rem;
+}
 
 .button-plot {
   padding: 0.5rem 1rem;
-  border: 1px solid;
+  border: 2px solid darkslateblue;
+  color: darkslateblue;
   border-radius: 0.4rem;
   margin-left: 0.4rem;
 }

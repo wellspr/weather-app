@@ -33,7 +33,7 @@ interface PlotProps {
     y: (number | null)[] | (number | null)[][];
     xLabel?: string;
     yLabel?: string;
-    dataLabel?: string;
+    dataLabel?: string | string[];
     title?: string;
     backgroundColor?: string | string[];
     borderColor?: string | string[];
@@ -65,13 +65,14 @@ const Plot: FC<PlotProps> = ({ x, y, xLabel, yLabel, dataLabel, title, backgroun
                 labels: labels,
                 datasets: dataSet.map((data, i) => { 
                     return {
-                        label: dataLabel,
+                        label: dataLabel && dataLabel[i],
                         data: data,
-                        borderWidth: 1,
+                        borderWidth: 2,
                         type: "bar",
                         backgroundColor: backgroundColor && backgroundColor[i],
                         borderColor: borderColor && borderColor[i],
-                    }
+                        borderRadius: 3
+                    };
                 }),
             }}
             height={250}
@@ -101,7 +102,6 @@ const Plot: FC<PlotProps> = ({ x, y, xLabel, yLabel, dataLabel, title, backgroun
                     legend: {
                         display: dataLabel ? true : false,
                         position: 'top' as const,
-
                     },
                     title: {
                         display: title ? true : false,

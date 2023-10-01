@@ -3,11 +3,16 @@
 .bar-plot {
     height: 25rem;
     margin: 0 2rem;
+
+    &__buttons {
+        margin: .1rem 0 .4rem 1rem;
+    }
 }
 
 .button-plot {
     padding: .5rem 1rem;
-    border: 1px solid;
+    border: 2px solid darkslateblue;
+    color: darkslateblue;
     border-radius: .4rem;
     margin-left: .4rem;
 

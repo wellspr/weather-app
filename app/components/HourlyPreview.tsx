@@ -35,20 +35,28 @@ const HourlyPreview: FC = () => {
             const units = forecast.hourly_units;
 
             let daysArray: number[] = [];
+            let datesArray: {weekday: "" | "sunday" | "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday", date: string}[] = [];
 
             hourly.time.forEach(t => {
+                const dateObj = new Date(t);
                 const now = new Date().getTime();
-                const date = new Date(t).getTime();
+                const date = dateObj.getTime();
                 const endDate = new Date(now + 48 * 3600 * 1000).getTime();
-                const day = new Date(t).getDate();
+                const day = dateObj.getDate();
+                const month = dateObj.getMonth();
+                const weekday = getWeekday(dateObj.getDay());
 
                 if (date > now && date < endDate) {
                     daysArray.push(day);
+                    datesArray.push({ weekday, date: `${day}/${month + 1}`});
                 }
             });
 
             let days: number[] = [];
             new Set(daysArray).forEach(d => days.push(d));
+
+            let dates: typeof datesArray = [];
+            new Set(datesArray).forEach(d => dates.push(d));
 
             const data: {
                 times: string[];
@@ -78,8 +86,6 @@ const HourlyPreview: FC = () => {
                 }
             });
 
-            console.log(data);
-
             let weatherData: {
                 times: string[];
                 temperatures: (number| null)[];
@@ -91,10 +97,7 @@ const HourlyPreview: FC = () => {
             const slices = days.map(day => daysArray.indexOf(day));
             slices.push(daysArray.length);
 
-            console.log(slices);
-
             days.forEach((day, i) => {
-                console.log(slices[i], slices[i + 1]);
                 weatherData[i] = {
                     times: data.times,
                     temperatures: data.temperatures.map((t, index) => {
@@ -124,56 +127,56 @@ const HourlyPreview: FC = () => {
                 }
             });
 
-            console.log(weatherData);
-
             setPlots([
                 {
                     plotID: "temperaturePlot",
-                    xLabel: "Next 48 hours",
-                    yLabel: "Temperature",
                     plotName: "Temperature",
-                    unit: "ºC",
+                    xLabel: "Next 48 hours",
+                    yLabel: `Temperature (${units.temperature_2m})`,
+                    //title: "Temperature",
+                    label: dates.map((d, i) => {
+                        if (i === 0) return `Today - ${d.date}`;
+                        if (i === 1) return `Tomorrow - ${d.date}`;
+                        return `${d.weekday.replace(d.weekday[0], d.weekday[0].toUpperCase())} - ${d.date}`;
+                    }),
                     x: data.times.map(h => new Date(h).getHours()),
-                    y: [
-                        weatherData[0].temperatures,
-                        weatherData[1].temperatures,
-                        weatherData[2].temperatures,
-                    ],
-                    backgroundColor: ["rgba(0, 255, 0, .2)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
-                    borderColor: ["rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
+                    y: weatherData.map(d => d.temperatures),
+                    backgroundColor: ["rgba(0, 128, 0, .1)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
+                    borderColor: ["rgba(0, 128, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
                 },
                 {
                     plotID: "windspeedPLot",
-                    xLabel: "Next 48 hours",
-                    yLabel: "Wind",
                     plotName: "Wind",
-                    unit: "km/h",
+                    xLabel: "Next 48 hours",
+                    yLabel: `Wind (${units.windspeed_10m})`,
+                    //title: "Wind Speed",
+                    label: dates.map((d, i) => {
+                        if (i === 0) return `Today - ${d}`;
+                        if (i === 1) return `Tomorrow - ${d}`;
+                        return `${d}`;
+                    }),
                     x: data.times.map(h => new Date(h).getHours()),
-                    y: [
-                        weatherData[0].windspeed,
-                        weatherData[1].windspeed,
-                        weatherData[2].windspeed,
-                    ],
-                    backgroundColor: ["rgba(0, 255, 0, .2)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
-                    borderColor: ["rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
+                    y: weatherData.map(d => d.windspeed),
+                    backgroundColor: ["rgba(0, 128, 0, .1)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
+                    borderColor: ["rgba(0, 128, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
                 },
                 {
                     plotID: "popPlot",
-                    xLabel: "Next 48 hours",
-                    yLabel: "Rain",
                     plotName: "Rain",
-                    unit: "%",
+                    xLabel: "Next 48 hours",
+                    yLabel: `Rain (${units.precipitation_probability})`,
+                    //title: "Rain",
+                    label: dates.map((d, i) => {
+                        if (i === 0) return `Today - ${d}`;
+                        if (i === 1) return `Tomorrow - ${d}`;
+                        return `${d}`;
+                    }),
                     x: data.times.map(h => new Date(h).getHours()),
-                    y: [
-                        weatherData[0].pop,
-                        weatherData[1].pop,
-                        weatherData[2].pop,
-                    ],
-                    backgroundColor: ["rgba(0, 255, 0, .2)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
-                    borderColor: ["rgba(0, 255, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
+                    y: weatherData.map(d => d.pop),
+                    backgroundColor: ["rgba(0, 128, 0, .1)", "rgba(0, 0, 255, .1)", "rgba(255, 165, 0, .1"],
+                    borderColor: ["rgba(0, 128, 0, 1)", "rgba(0, 0, 255, 1)", "rgba(255, 165, 0, 1"]
                 }
             ]);
-
 
             const start = hourNow + 1;
             const end = hourNow + 49;

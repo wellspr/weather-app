@@ -5,9 +5,8 @@ const Plot = lazy(() => import("../plots/Plot"));
 type Plot = {
     plotID: string;
     plotName: string;
-    label?: string;
+    label?: string | string[];
     title?: string;
-    unit: string;
     x: number[];
     y: (number | null)[] | (number | null)[][];
     xLabel?: string;
@@ -37,7 +36,7 @@ const DataPlot: FC<DataPlotProps> = ({ plots }) => {
                                 return (
                                     <Plot
                                         key={plot.plotID}
-                                        yLabel={`${plot.yLabel} (${plot.unit})`}
+                                        yLabel={plot.yLabel}
                                         xLabel={plot.xLabel}
                                         x={plot.x}
                                         y={plot.y}
@@ -57,23 +56,26 @@ const DataPlot: FC<DataPlotProps> = ({ plots }) => {
 
     return (
         <div className="bar-plot">
-            {
-                plots.map(plot => {
-                    return (
-                        <button
-                            key={plot.plotID}
-                            className={visible === plot.plotID ? "button button-plot button-plot--active" : "button button-plot"}
-                            disabled={visible === plot.plotID}
-                            onClick={() => {
-                                setVisible(plot.plotID);
-                            }}>
-                            { plot.plotName }
-                        </button>
-                    );
-                })
-            }
-
-            {renderPlot()}
+            <div className="bar-plot__buttons">
+                {
+                    plots.map(plot => {
+                        return (
+                            <button
+                                key={plot.plotID}
+                                className={visible === plot.plotID ? "button button-plot button-plot--active" : "button button-plot"}
+                                disabled={visible === plot.plotID}
+                                onClick={() => {
+                                    setVisible(plot.plotID);
+                                }}>
+                                {plot.plotName}
+                            </button>
+                        );
+                    })
+                }
+            </div>
+            <div className="bar-plot__graph">
+                {renderPlot()}
+            </div>
         </div>
     );
 };
