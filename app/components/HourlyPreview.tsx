@@ -151,9 +151,9 @@ const HourlyPreview: FC = () => {
                     yLabel: `Wind (${units.windspeed_10m})`,
                     //title: "Wind Speed",
                     label: dates.map((d, i) => {
-                        if (i === 0) return `Today - ${d}`;
-                        if (i === 1) return `Tomorrow - ${d}`;
-                        return `${d}`;
+                        if (i === 0) return `Today - ${d.date}`;
+                        if (i === 1) return `Tomorrow - ${d.date}`;
+                        return `${d.weekday.replace(d.weekday[0], d.weekday[0].toUpperCase())} - ${d.date}`;
                     }),
                     x: data.times.map(h => new Date(h).getHours()),
                     y: weatherData.map(d => d.windspeed),
@@ -167,9 +167,9 @@ const HourlyPreview: FC = () => {
                     yLabel: `Rain (${units.precipitation_probability})`,
                     //title: "Rain",
                     label: dates.map((d, i) => {
-                        if (i === 0) return `Today - ${d}`;
-                        if (i === 1) return `Tomorrow - ${d}`;
-                        return `${d}`;
+                        if (i === 0) return `Today - ${d.date}`;
+                        if (i === 1) return `Tomorrow - ${d.date}`;
+                        return `${d.weekday.replace(d.weekday[0], d.weekday[0].toUpperCase())} - ${d.date}`;
                     }),
                     x: data.times.map(h => new Date(h).getHours()),
                     y: weatherData.map(d => d.pop),
